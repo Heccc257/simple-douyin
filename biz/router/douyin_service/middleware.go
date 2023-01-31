@@ -21,6 +21,51 @@ func _feedMw() []app.HandlerFunc {
 	return nil
 }
 
+func _commentMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _comment_ctionMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _commentlistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _favoriteMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _favorite_ctionMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _favoritelistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _friendMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _followerMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _relationfriendlistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
 func _publishMw() []app.HandlerFunc {
 	// your code...
 	return nil
@@ -31,7 +76,7 @@ func _actionMw() []app.HandlerFunc {
 	return nil
 }
 
-func __ctionMw() []app.HandlerFunc {
+func _publish_ctionMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
@@ -41,7 +86,37 @@ func _listMw() []app.HandlerFunc {
 	return nil
 }
 
-func _list0Mw() []app.HandlerFunc {
+func _publishlistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _relationMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _relation_ctionMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _followMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _relationfollowlistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _follower0Mw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _relationfollowerlistMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }

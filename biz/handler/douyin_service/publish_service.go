@@ -10,9 +10,9 @@ import (
 	core "simple_douyin/biz/model/core"
 )
 
-// Action .
+// PublishAction .
 // @router douyin/publish/action/ [POST]
-func Action(ctx context.Context, c *app.RequestContext) {
+func PublishAction(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req core.DouyinPublishActionRequest
 	err = c.BindAndValidate(&req)
@@ -26,9 +26,9 @@ func Action(ctx context.Context, c *app.RequestContext) {
 	c.JSON(consts.StatusOK, resp)
 }
 
-// List .
-// @router douyin/publish/list/ [POST]
-func List(ctx context.Context, c *app.RequestContext) {
+// PublishList .
+// @router douyin/publish/list/ [GET]
+func PublishList(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req core.DouyinPublishListRequest
 	err = c.BindAndValidate(&req)

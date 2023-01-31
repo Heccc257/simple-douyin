@@ -4,12 +4,10 @@ package douyin_service
 
 import (
 	"context"
-	"fmt"
-
-	core "simple_douyin/biz/model/core"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	core "simple_douyin/biz/model/core"
 )
 
 // Feed .
@@ -18,21 +16,12 @@ func Feed(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req core.DouyinFeedRequest
 	err = c.BindAndValidate(&req)
-
-	fmt.Printf("Feed: %+v\n", req)
-
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
 
-	// resp := new(core.DouyinFeedResponse)
-	resp := &core.DouyinFeedResponse{
-		StatusCode: 1,
-		StatusMsg:  "test",
-		VideoList:  nil,
-		NextTime:   2,
-	}
+	resp := new(core.DouyinFeedResponse)
 
 	c.JSON(consts.StatusOK, resp)
 }

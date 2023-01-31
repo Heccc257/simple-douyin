@@ -21,21 +21,50 @@ func Register(r *server.Hertz) {
 		_douyin := root.Group("/douyin", _douyinMw()...)
 		_douyin.GET("/feed", append(_feedMw(), douyin_service.Feed)...)
 		{
+			_comment := _douyin.Group("/comment", _commentMw()...)
+			_comment.POST("/action", append(_comment_ctionMw(), douyin_service.CommentAction)...)
+			_comment.GET("/list", append(_commentlistMw(), douyin_service.CommentList)...)
+		}
+		{
+			_favorite := _douyin.Group("/favorite", _favoriteMw()...)
+			_favorite.POST("/action", append(_favorite_ctionMw(), douyin_service.FavoriteAction)...)
+			_favorite.GET("/list", append(_favoritelistMw(), douyin_service.FavoriteList)...)
+		}
+		{
+			_friend := _douyin.Group("/friend", _friendMw()...)
+			{
+				_follower := _friend.Group("/follower", _followerMw()...)
+				_follower.POST("/list", append(_relationfriendlistMw(), douyin_service.RelationFriendList)...)
+			}
+		}
+		{
 			_publish := _douyin.Group("/publish", _publishMw()...)
 			{
 				_action := _publish.Group("/action", _actionMw()...)
-				_action.POST("/", append(__ctionMw(), douyin_service.Action)...)
+				_action.POST("/", append(_publish_ctionMw(), douyin_service.PublishAction)...)
 			}
 			{
 				_list := _publish.Group("/list", _listMw()...)
-				_list.POST("/", append(_list0Mw(), douyin_service.List)...)
+				_list.GET("/", append(_publishlistMw(), douyin_service.PublishList)...)
+			}
+		}
+		{
+			_relation := _douyin.Group("/relation", _relationMw()...)
+			_relation.POST("/action", append(_relation_ctionMw(), douyin_service.RelationAction)...)
+			{
+				_follow := _relation.Group("/follow", _followMw()...)
+				_follow.POST("/list", append(_relationfollowlistMw(), douyin_service.RelationFollowList)...)
+			}
+			{
+				_follower0 := _relation.Group("/follower", _follower0Mw()...)
+				_follower0.POST("/list", append(_relationfollowerlistMw(), douyin_service.RelationFollowerList)...)
 			}
 		}
 		{
 			_user := _douyin.Group("/user", _userMw()...)
 			_user.GET("/", append(_userinfoMw(), douyin_service.UserInfo)...)
 			_user.POST("/login", append(_loginMw(), douyin_service.Login)...)
-			_user.GET("/register", append(_registerMw(), douyin_service.Register)...)
+			_user.POST("/register", append(_registerMw(), douyin_service.Register)...)
 		}
 	}
 }
