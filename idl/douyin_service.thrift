@@ -4,6 +4,7 @@ include "publish.thrift"
 include "favorite.thrift"
 include "comment.thrift"
 include "relation.thrift"
+include "message.thrift"
 
 service FeedService {
     feed.DouyinFeedResponse Feed(1: feed.DouyinFeedRequest req) (api.get="douyin/feed")
@@ -35,4 +36,10 @@ service RelationService {
     relation.DouyinRelationFollowListResponse RelationFollowList(1: relation.DouyinRelationFollowListRequest req) (api.get="douyin/relation/follow/list")
     relation.DouyinRelationFollowerListResponse RelationFollowerList(1: relation.DouyinRelationFollowerListRequest req) (api.get="douyin/relation/follower/list")
     relation.DouyinRelationFriendListResponse RelationFriendList(1: relation.DouyinRelationFriendListRequest req) (api.get="douyin/friend/follower/list")
+}
+
+service MessageService {
+    message.DouyinMessageChatResponse MessageChat(1: message.DouyinMessageChatResponse req) (api.get="douyin/message/chat")
+    message.DouyinMessageActionResponse MessageAction(1: message.DouyinMessageActionRequest req) (api.post="douyin/message/action")
+
 }

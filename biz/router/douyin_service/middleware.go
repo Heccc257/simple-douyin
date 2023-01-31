@@ -66,6 +66,21 @@ func _relationfriendlistMw() []app.HandlerFunc {
 	return nil
 }
 
+func _messageMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _message_ctionMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _messagechatMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
 func _publishMw() []app.HandlerFunc {
 	// your code...
 	return nil

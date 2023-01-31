@@ -34,8 +34,13 @@ func Register(r *server.Hertz) {
 			_friend := _douyin.Group("/friend", _friendMw()...)
 			{
 				_follower := _friend.Group("/follower", _followerMw()...)
-				_follower.POST("/list", append(_relationfriendlistMw(), douyin_service.RelationFriendList)...)
+				_follower.GET("/list", append(_relationfriendlistMw(), douyin_service.RelationFriendList)...)
 			}
+		}
+		{
+			_message := _douyin.Group("/message", _messageMw()...)
+			_message.POST("/action", append(_message_ctionMw(), douyin_service.MessageAction)...)
+			_message.GET("/chat", append(_messagechatMw(), douyin_service.MessageChat)...)
 		}
 		{
 			_publish := _douyin.Group("/publish", _publishMw()...)
@@ -53,11 +58,11 @@ func Register(r *server.Hertz) {
 			_relation.POST("/action", append(_relation_ctionMw(), douyin_service.RelationAction)...)
 			{
 				_follow := _relation.Group("/follow", _followMw()...)
-				_follow.POST("/list", append(_relationfollowlistMw(), douyin_service.RelationFollowList)...)
+				_follow.GET("/list", append(_relationfollowlistMw(), douyin_service.RelationFollowList)...)
 			}
 			{
 				_follower0 := _relation.Group("/follower", _follower0Mw()...)
-				_follower0.POST("/list", append(_relationfollowerlistMw(), douyin_service.RelationFollowerList)...)
+				_follower0.GET("/list", append(_relationfollowerlistMw(), douyin_service.RelationFollowerList)...)
 			}
 		}
 		{

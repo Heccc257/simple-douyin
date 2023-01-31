@@ -339,6 +339,57 @@ func (p *RelationServiceClient) RelationFriendList(ctx context.Context, req *sec
 	return _result.GetSuccess(), nil
 }
 
+type MessageService interface {
+	MessageChat(ctx context.Context, req *second.DouyinMessageChatResponse) (r *second.DouyinMessageChatResponse, err error)
+
+	MessageAction(ctx context.Context, req *second.DouyinMessageActionRequest) (r *second.DouyinMessageActionResponse, err error)
+}
+
+type MessageServiceClient struct {
+	c thrift.TClient
+}
+
+func NewMessageServiceClientFactory(t thrift.TTransport, f thrift.TProtocolFactory) *MessageServiceClient {
+	return &MessageServiceClient{
+		c: thrift.NewTStandardClient(f.GetProtocol(t), f.GetProtocol(t)),
+	}
+}
+
+func NewMessageServiceClientProtocol(t thrift.TTransport, iprot thrift.TProtocol, oprot thrift.TProtocol) *MessageServiceClient {
+	return &MessageServiceClient{
+		c: thrift.NewTStandardClient(iprot, oprot),
+	}
+}
+
+func NewMessageServiceClient(c thrift.TClient) *MessageServiceClient {
+	return &MessageServiceClient{
+		c: c,
+	}
+}
+
+func (p *MessageServiceClient) Client_() thrift.TClient {
+	return p.c
+}
+
+func (p *MessageServiceClient) MessageChat(ctx context.Context, req *second.DouyinMessageChatResponse) (r *second.DouyinMessageChatResponse, err error) {
+	var _args MessageServiceMessageChatArgs
+	_args.Req = req
+	var _result MessageServiceMessageChatResult
+	if err = p.Client_().Call(ctx, "MessageChat", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+func (p *MessageServiceClient) MessageAction(ctx context.Context, req *second.DouyinMessageActionRequest) (r *second.DouyinMessageActionResponse, err error) {
+	var _args MessageServiceMessageActionArgs
+	_args.Req = req
+	var _result MessageServiceMessageActionResult
+	if err = p.Client_().Call(ctx, "MessageAction", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
 type FeedServiceProcessor struct {
 	processorMap map[string]thrift.TProcessorFunction
 	handler      FeedService
@@ -5351,4 +5402,726 @@ func (p *RelationServiceRelationFriendListResult) String() string {
 		return "<nil>"
 	}
 	return fmt.Sprintf("RelationServiceRelationFriendListResult(%+v)", *p)
+}
+
+type MessageServiceProcessor struct {
+	processorMap map[string]thrift.TProcessorFunction
+	handler      MessageService
+}
+
+func (p *MessageServiceProcessor) AddToProcessorMap(key string, processor thrift.TProcessorFunction) {
+	p.processorMap[key] = processor
+}
+
+func (p *MessageServiceProcessor) GetProcessorFunction(key string) (processor thrift.TProcessorFunction, ok bool) {
+	processor, ok = p.processorMap[key]
+	return processor, ok
+}
+
+func (p *MessageServiceProcessor) ProcessorMap() map[string]thrift.TProcessorFunction {
+	return p.processorMap
+}
+
+func NewMessageServiceProcessor(handler MessageService) *MessageServiceProcessor {
+	self := &MessageServiceProcessor{handler: handler, processorMap: make(map[string]thrift.TProcessorFunction)}
+	self.AddToProcessorMap("MessageChat", &messageServiceProcessorMessageChat{handler: handler})
+	self.AddToProcessorMap("MessageAction", &messageServiceProcessorMessageAction{handler: handler})
+	return self
+}
+func (p *MessageServiceProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	name, _, seqId, err := iprot.ReadMessageBegin()
+	if err != nil {
+		return false, err
+	}
+	if processor, ok := p.GetProcessorFunction(name); ok {
+		return processor.Process(ctx, seqId, iprot, oprot)
+	}
+	iprot.Skip(thrift.STRUCT)
+	iprot.ReadMessageEnd()
+	x := thrift.NewTApplicationException(thrift.UNKNOWN_METHOD, "Unknown function "+name)
+	oprot.WriteMessageBegin(name, thrift.EXCEPTION, seqId)
+	x.Write(oprot)
+	oprot.WriteMessageEnd()
+	oprot.Flush(ctx)
+	return false, x
+}
+
+type messageServiceProcessorMessageChat struct {
+	handler MessageService
+}
+
+func (p *messageServiceProcessorMessageChat) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := MessageServiceMessageChatArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("MessageChat", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := MessageServiceMessageChatResult{}
+	var retval *second.DouyinMessageChatResponse
+	if retval, err2 = p.handler.MessageChat(ctx, args.Req); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing MessageChat: "+err2.Error())
+		oprot.WriteMessageBegin("MessageChat", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("MessageChat", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type messageServiceProcessorMessageAction struct {
+	handler MessageService
+}
+
+func (p *messageServiceProcessorMessageAction) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := MessageServiceMessageActionArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("MessageAction", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := MessageServiceMessageActionResult{}
+	var retval *second.DouyinMessageActionResponse
+	if retval, err2 = p.handler.MessageAction(ctx, args.Req); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing MessageAction: "+err2.Error())
+		oprot.WriteMessageBegin("MessageAction", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("MessageAction", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type MessageServiceMessageChatArgs struct {
+	Req *second.DouyinMessageChatResponse `thrift:"req,1"`
+}
+
+func NewMessageServiceMessageChatArgs() *MessageServiceMessageChatArgs {
+	return &MessageServiceMessageChatArgs{}
+}
+
+var MessageServiceMessageChatArgs_Req_DEFAULT *second.DouyinMessageChatResponse
+
+func (p *MessageServiceMessageChatArgs) GetReq() (v *second.DouyinMessageChatResponse) {
+	if !p.IsSetReq() {
+		return MessageServiceMessageChatArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+var fieldIDToName_MessageServiceMessageChatArgs = map[int16]string{
+	1: "req",
+}
+
+func (p *MessageServiceMessageChatArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *MessageServiceMessageChatArgs) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceMessageChatArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *MessageServiceMessageChatArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = second.NewDouyinMessageChatResponse()
+	if err := p.Req.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *MessageServiceMessageChatArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("MessageChat_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *MessageServiceMessageChatArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *MessageServiceMessageChatArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("MessageServiceMessageChatArgs(%+v)", *p)
+}
+
+type MessageServiceMessageChatResult struct {
+	Success *second.DouyinMessageChatResponse `thrift:"success,0,optional"`
+}
+
+func NewMessageServiceMessageChatResult() *MessageServiceMessageChatResult {
+	return &MessageServiceMessageChatResult{}
+}
+
+var MessageServiceMessageChatResult_Success_DEFAULT *second.DouyinMessageChatResponse
+
+func (p *MessageServiceMessageChatResult) GetSuccess() (v *second.DouyinMessageChatResponse) {
+	if !p.IsSetSuccess() {
+		return MessageServiceMessageChatResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+var fieldIDToName_MessageServiceMessageChatResult = map[int16]string{
+	0: "success",
+}
+
+func (p *MessageServiceMessageChatResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *MessageServiceMessageChatResult) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceMessageChatResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *MessageServiceMessageChatResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = second.NewDouyinMessageChatResponse()
+	if err := p.Success.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *MessageServiceMessageChatResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("MessageChat_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *MessageServiceMessageChatResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *MessageServiceMessageChatResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("MessageServiceMessageChatResult(%+v)", *p)
+}
+
+type MessageServiceMessageActionArgs struct {
+	Req *second.DouyinMessageActionRequest `thrift:"req,1"`
+}
+
+func NewMessageServiceMessageActionArgs() *MessageServiceMessageActionArgs {
+	return &MessageServiceMessageActionArgs{}
+}
+
+var MessageServiceMessageActionArgs_Req_DEFAULT *second.DouyinMessageActionRequest
+
+func (p *MessageServiceMessageActionArgs) GetReq() (v *second.DouyinMessageActionRequest) {
+	if !p.IsSetReq() {
+		return MessageServiceMessageActionArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+var fieldIDToName_MessageServiceMessageActionArgs = map[int16]string{
+	1: "req",
+}
+
+func (p *MessageServiceMessageActionArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *MessageServiceMessageActionArgs) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceMessageActionArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *MessageServiceMessageActionArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = second.NewDouyinMessageActionRequest()
+	if err := p.Req.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *MessageServiceMessageActionArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("MessageAction_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *MessageServiceMessageActionArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *MessageServiceMessageActionArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("MessageServiceMessageActionArgs(%+v)", *p)
+}
+
+type MessageServiceMessageActionResult struct {
+	Success *second.DouyinMessageActionResponse `thrift:"success,0,optional"`
+}
+
+func NewMessageServiceMessageActionResult() *MessageServiceMessageActionResult {
+	return &MessageServiceMessageActionResult{}
+}
+
+var MessageServiceMessageActionResult_Success_DEFAULT *second.DouyinMessageActionResponse
+
+func (p *MessageServiceMessageActionResult) GetSuccess() (v *second.DouyinMessageActionResponse) {
+	if !p.IsSetSuccess() {
+		return MessageServiceMessageActionResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+var fieldIDToName_MessageServiceMessageActionResult = map[int16]string{
+	0: "success",
+}
+
+func (p *MessageServiceMessageActionResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *MessageServiceMessageActionResult) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_MessageServiceMessageActionResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *MessageServiceMessageActionResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = second.NewDouyinMessageActionResponse()
+	if err := p.Success.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *MessageServiceMessageActionResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("MessageAction_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *MessageServiceMessageActionResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *MessageServiceMessageActionResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("MessageServiceMessageActionResult(%+v)", *p)
 }
