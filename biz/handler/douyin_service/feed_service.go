@@ -11,7 +11,7 @@ import (
 )
 
 // Feed .
-// @router douyin/feed [GET]
+// @router douyin/feed/ [GET]
 func Feed(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req core.DouyinFeedRequest

@@ -11,7 +11,7 @@ import (
 )
 
 // MessageChat .
-// @router douyin/message/chat [GET]
+// @router douyin/message/chat/ [GET]
 func MessageChat(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req second.DouyinMessageChatResponse
@@ -27,7 +27,7 @@ func MessageChat(ctx context.Context, c *app.RequestContext) {
 }
 
 // MessageAction .
-// @router douyin/message/action [POST]
+// @router douyin/message/action/ [POST]
 func MessageAction(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req second.DouyinMessageActionRequest

@@ -11,7 +11,7 @@ import (
 )
 
 // Register .
-// @router douyin/user/register [POST]
+// @router douyin/user/register/ [POST]
 func Register(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req core.DouyinUserRegisterRequest
@@ -27,7 +27,7 @@ func Register(ctx context.Context, c *app.RequestContext) {
 }
 
 // Login .
-// @router douyin/user/login [POST]
+// @router douyin/user/login/ [POST]
 func Login(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req core.DouyinUserLoginRequest

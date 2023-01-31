@@ -11,7 +11,7 @@ import (
 )
 
 // RelationAction .
-// @router douyin/relation/action [POST]
+// @router douyin/relation/action/ [POST]
 func RelationAction(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req second.DouyinRelationActionRequest
@@ -27,7 +27,7 @@ func RelationAction(ctx context.Context, c *app.RequestContext) {
 }
 
 // RelationFollowList .
-// @router douyin/relation/follow/list [GET]
+// @router douyin/relation/follow/list/ [GET]
 func RelationFollowList(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req second.DouyinRelationFollowListRequest
@@ -43,7 +43,7 @@ func RelationFollowList(ctx context.Context, c *app.RequestContext) {
 }
 
 // RelationFollowerList .
-// @router douyin/relation/follower/list [GET]
+// @router douyin/relation/follower/list/ [GET]
 func RelationFollowerList(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req second.DouyinRelationFollowerListRequest
@@ -59,7 +59,7 @@ func RelationFollowerList(ctx context.Context, c *app.RequestContext) {
 }
 
 // RelationFriendList .
-// @router douyin/friend/follower/list [GET]
+// @router douyin/friend/follower/list/ [GET]
 func RelationFriendList(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req second.DouyinRelationFriendListRequest
