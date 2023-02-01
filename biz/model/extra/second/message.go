@@ -8,27 +8,17 @@ import (
 )
 
 type Message struct {
-	Token      string `thrift:"Token,1" form:"token" json:"token"`
-	ToUserID   int64  `thrift:"ToUserID,2" form:"to_user_id" json:"to_user_id"`
-	FromUserID int64  `thrift:"FromUserID,3" form:"from_user_id" json:"from_user_id"`
-	Content    string `thrift:"Content,4" form:"content" json:"content"`
-	CreateTime string `thrift:"CreateTime,5" form:"create_time" json:"create_time"`
+	ID         string `thrift:"ID,1" form:"id" json:"id"`
+	Content    string `thrift:"Content,2" form:"content" json:"content"`
+	CreateTime string `thrift:"CreateTime,3" form:"create_time" json:"create_time"`
 }
 
 func NewMessage() *Message {
 	return &Message{}
 }
 
-func (p *Message) GetToken() (v string) {
-	return p.Token
-}
-
-func (p *Message) GetToUserID() (v int64) {
-	return p.ToUserID
-}
-
-func (p *Message) GetFromUserID() (v int64) {
-	return p.FromUserID
+func (p *Message) GetID() (v string) {
+	return p.ID
 }
 
 func (p *Message) GetContent() (v string) {
@@ -40,11 +30,9 @@ func (p *Message) GetCreateTime() (v string) {
 }
 
 var fieldIDToName_Message = map[int16]string{
-	1: "Token",
-	2: "ToUserID",
-	3: "FromUserID",
-	4: "Content",
-	5: "CreateTime",
+	1: "ID",
+	2: "Content",
+	3: "CreateTime",
 }
 
 func (p *Message) Read(iprot thrift.TProtocol) (err error) {
@@ -77,7 +65,7 @@ func (p *Message) Read(iprot thrift.TProtocol) (err error) {
 				}
 			}
 		case 2:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -87,28 +75,8 @@ func (p *Message) Read(iprot thrift.TProtocol) (err error) {
 				}
 			}
 		case 3:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField3(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else {
-				if err = iprot.Skip(fieldTypeId); err != nil {
-					goto SkipFieldError
-				}
-			}
-		case 4:
-			if fieldTypeId == thrift.STRING {
-				if err = p.ReadField4(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else {
-				if err = iprot.Skip(fieldTypeId); err != nil {
-					goto SkipFieldError
-				}
-			}
-		case 5:
-			if fieldTypeId == thrift.STRING {
-				if err = p.ReadField5(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else {
@@ -150,30 +118,12 @@ func (p *Message) ReadField1(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.Token = v
+		p.ID = v
 	}
 	return nil
 }
 
 func (p *Message) ReadField2(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadI64(); err != nil {
-		return err
-	} else {
-		p.ToUserID = v
-	}
-	return nil
-}
-
-func (p *Message) ReadField3(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadI64(); err != nil {
-		return err
-	} else {
-		p.FromUserID = v
-	}
-	return nil
-}
-
-func (p *Message) ReadField4(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
@@ -182,7 +132,7 @@ func (p *Message) ReadField4(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *Message) ReadField5(iprot thrift.TProtocol) error {
+func (p *Message) ReadField3(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
@@ -209,14 +159,6 @@ func (p *Message) Write(oprot thrift.TProtocol) (err error) {
 			fieldId = 3
 			goto WriteFieldError
 		}
-		if err = p.writeField4(oprot); err != nil {
-			fieldId = 4
-			goto WriteFieldError
-		}
-		if err = p.writeField5(oprot); err != nil {
-			fieldId = 5
-			goto WriteFieldError
-		}
 
 	}
 	if err = oprot.WriteFieldStop(); err != nil {
@@ -237,10 +179,10 @@ WriteStructEndError:
 }
 
 func (p *Message) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 1); err != nil {
+	if err = oprot.WriteFieldBegin("ID", thrift.STRING, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.Token); err != nil {
+	if err := oprot.WriteString(p.ID); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -254,10 +196,10 @@ WriteFieldEndError:
 }
 
 func (p *Message) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("ToUserID", thrift.I64, 2); err != nil {
+	if err = oprot.WriteFieldBegin("Content", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.ToUserID); err != nil {
+	if err := oprot.WriteString(p.Content); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -271,41 +213,7 @@ WriteFieldEndError:
 }
 
 func (p *Message) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("FromUserID", thrift.I64, 3); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteI64(p.FromUserID); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
-}
-
-func (p *Message) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Content", thrift.STRING, 4); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteString(p.Content); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 4 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
-}
-
-func (p *Message) writeField5(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("CreateTime", thrift.STRING, 5); err != nil {
+	if err = oprot.WriteFieldBegin("CreateTime", thrift.STRING, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.CreateTime); err != nil {
@@ -316,9 +224,9 @@ func (p *Message) writeField5(oprot thrift.TProtocol) (err error) {
 	}
 	return nil
 WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 5 begin error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
 WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 5 end error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
 }
 
 func (p *Message) String() string {

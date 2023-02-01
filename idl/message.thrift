@@ -3,11 +3,14 @@ include "common.thrift"
 namespace go extra.second
 
 struct Message {
-    1: string Token (api.body="token")
-    2: i64 ToUserID (api.body="to_user_id")
-    3: i64 FromUserID (api.body="from_user_id")
-    4: string Content (api.body="content")
-    5: string CreateTime (api.body="create_time")
+    1: string ID (api.body="id")
+    2: string Content (api.body="content")
+    3: string CreateTime (api.body="create_time")
+    // 1: string Token (api.body="token")
+    // 2: i64 ToUserID (api.body="to_user_id")
+    // 3: i64 FromUserID (api.body="from_user_id")
+    // 4: string Content (api.body="content")
+    // 5: string CreateTime (api.body="create_time")
 }
 
 struct DouyinMessageChatRequest {

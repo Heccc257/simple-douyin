@@ -9,9 +9,9 @@ import (
 )
 
 type DouyinPublishActionRequest struct {
-	Token string `thrift:"Token,1" json:"Token" query:"token"`
-	Data  []int8 `thrift:"Data,2" json:"Data" query:"data"`
-	Title string `thrift:"Title,3" json:"Title" query:"title"`
+	Token string `thrift:"Token,1" form:"token" json:"Token"`
+	Data  []int8 `thrift:"Data,2" form:"data" json:"Data"`
+	Title string `thrift:"Title,3" form:"title" json:"Title"`
 }
 
 func NewDouyinPublishActionRequest() *DouyinPublishActionRequest {
@@ -442,25 +442,25 @@ func (p *DouyinPublishActionResponse) String() string {
 }
 
 type DouyinPublishListRequest struct {
-	UserID int64  `thrift:"UserID,1" json:"UserID" query:"user_id"`
-	Token  string `thrift:"Token,2" json:"Token" query:"token"`
+	Token  string `thrift:"Token,1" json:"Token" query:"token"`
+	UserID int64  `thrift:"UserID,2" json:"UserID" query:"user_id"`
 }
 
 func NewDouyinPublishListRequest() *DouyinPublishListRequest {
 	return &DouyinPublishListRequest{}
 }
 
-func (p *DouyinPublishListRequest) GetUserID() (v int64) {
-	return p.UserID
-}
-
 func (p *DouyinPublishListRequest) GetToken() (v string) {
 	return p.Token
 }
 
+func (p *DouyinPublishListRequest) GetUserID() (v int64) {
+	return p.UserID
+}
+
 var fieldIDToName_DouyinPublishListRequest = map[int16]string{
-	1: "UserID",
-	2: "Token",
+	1: "Token",
+	2: "UserID",
 }
 
 func (p *DouyinPublishListRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -483,7 +483,7 @@ func (p *DouyinPublishListRequest) Read(iprot thrift.TProtocol) (err error) {
 
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -493,7 +493,7 @@ func (p *DouyinPublishListRequest) Read(iprot thrift.TProtocol) (err error) {
 				}
 			}
 		case 2:
-			if fieldTypeId == thrift.STRING {
+			if fieldTypeId == thrift.I64 {
 				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -533,19 +533,19 @@ ReadStructEndError:
 }
 
 func (p *DouyinPublishListRequest) ReadField1(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadI64(); err != nil {
+	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.UserID = v
+		p.Token = v
 	}
 	return nil
 }
 
 func (p *DouyinPublishListRequest) ReadField2(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadString(); err != nil {
+	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
-		p.Token = v
+		p.UserID = v
 	}
 	return nil
 }
@@ -584,10 +584,10 @@ WriteStructEndError:
 }
 
 func (p *DouyinPublishListRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserID", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.UserID); err != nil {
+	if err := oprot.WriteString(p.Token); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -601,10 +601,10 @@ WriteFieldEndError:
 }
 
 func (p *DouyinPublishListRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("UserID", thrift.I64, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.Token); err != nil {
+	if err := oprot.WriteI64(p.UserID); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {

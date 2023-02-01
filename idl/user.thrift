@@ -4,7 +4,7 @@ namespace go core
 
 
 struct DouyinUserRegisterRequest {
-    1: string UserName (api.query="user_name")
+    1: string UserName (api.query="username")
     2: string PassWord (api.query="password")
 }
 
@@ -16,7 +16,7 @@ struct DouyinUserRegisterResponse {
 }
 
 struct DouyinUserLoginRequest {
-    1: string UserName (api.query="user_name")
+    1: string UserName (api.query="username")
     2: string PassWord (api.query="password")
 }
 
@@ -28,8 +28,8 @@ struct DouyinUserLoginResponse {
 }
 
 struct DouyinUserRequest {
-    1: string UserName (api.query="user_name")
-    2: string PassWord (api.query="password")
+    1: string UserID (api.query="user_id")
+    2: string Token (api.query="token")
 }
 
 struct DouyinUserResponse {
