@@ -9,8 +9,8 @@ import (
 )
 
 type DouyinFeedRequest struct {
-	LatestTime int64  `thrift:"LatestTime,1" json:"LatestTime" query:"latest_time"`
-	Token      string `thrift:"Token,2" json:"Token" query:"token"`
+	LatestTime int64  `thrift:"latest_time,1" json:"latest_time" query:"latest_time"`
+	Token      string `thrift:"token,2" json:"token" query:"token"`
 }
 
 func NewDouyinFeedRequest() *DouyinFeedRequest {
@@ -26,8 +26,8 @@ func (p *DouyinFeedRequest) GetToken() (v string) {
 }
 
 var fieldIDToName_DouyinFeedRequest = map[int16]string{
-	1: "LatestTime",
-	2: "Token",
+	1: "latest_time",
+	2: "token",
 }
 
 func (p *DouyinFeedRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -151,7 +151,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinFeedRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("LatestTime", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("latest_time", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.LatestTime); err != nil {
@@ -168,7 +168,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinFeedRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Token); err != nil {
@@ -192,10 +192,10 @@ func (p *DouyinFeedRequest) String() string {
 }
 
 type DouyinFeedResponse struct {
-	StatusCode int64           `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg  string          `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
-	VideoList  []*common.Video `thrift:"VideoList,3" form:"video_list" json:"video_list"`
-	NextTime   int64           `thrift:"NextTime,4" form:"next_time" json:"next_time"`
+	StatusCode int64           `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg  string          `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
+	VideoList  []*common.Video `thrift:"video_list,3" form:"video_list" json:"video_list"`
+	NextTime   int64           `thrift:"next_time,4" form:"next_time" json:"next_time"`
 }
 
 func NewDouyinFeedResponse() *DouyinFeedResponse {
@@ -219,10 +219,10 @@ func (p *DouyinFeedResponse) GetNextTime() (v int64) {
 }
 
 var fieldIDToName_DouyinFeedResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
-	3: "VideoList",
-	4: "NextTime",
+	1: "status_code",
+	2: "status_msg",
+	3: "video_list",
+	4: "next_time",
 }
 
 func (p *DouyinFeedResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -403,7 +403,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinFeedResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.StatusCode); err != nil {
@@ -420,7 +420,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinFeedResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {
@@ -437,7 +437,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinFeedResponse) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("VideoList", thrift.LIST, 3); err != nil {
+	if err = oprot.WriteFieldBegin("video_list", thrift.LIST, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.VideoList)); err != nil {
@@ -462,7 +462,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinFeedResponse) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("NextTime", thrift.I64, 4); err != nil {
+	if err = oprot.WriteFieldBegin("next_time", thrift.I64, 4); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.NextTime); err != nil {

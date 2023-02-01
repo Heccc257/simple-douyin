@@ -8,11 +8,11 @@ import (
 )
 
 type User struct {
-	ID            int64  `thrift:"ID,1" form:"id" json:"id"`
-	Name          string `thrift:"Name,2" form:"name" json:"name"`
-	FollowCount   int64  `thrift:"FollowCount,3" form:"follow_count" json:"follow_count"`
-	FollowerCount int64  `thrift:"FollowerCount,4" form:"follower_count" json:"follower_count"`
-	IsFollow      bool   `thrift:"Is_follow,5" form:"is_follow" json:"is_follow"`
+	ID            int64  `thrift:"id,1" form:"id" json:"id"`
+	Name          string `thrift:"name,2" form:"name" json:"name"`
+	FollowCount   int64  `thrift:"follow_count,3" form:"follow_count" json:"follow_count"`
+	FollowerCount int64  `thrift:"follower_count,4" form:"follower_count" json:"follower_count"`
+	IsFollow      bool   `thrift:"is_follow,5" form:"is_follow" json:"is_follow"`
 }
 
 func NewUser() *User {
@@ -40,11 +40,11 @@ func (p *User) GetIsFollow() (v bool) {
 }
 
 var fieldIDToName_User = map[int16]string{
-	1: "ID",
-	2: "Name",
-	3: "FollowCount",
-	4: "FollowerCount",
-	5: "Is_follow",
+	1: "id",
+	2: "name",
+	3: "follow_count",
+	4: "follower_count",
+	5: "is_follow",
 }
 
 func (p *User) Read(iprot thrift.TProtocol) (err error) {
@@ -237,7 +237,7 @@ WriteStructEndError:
 }
 
 func (p *User) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("ID", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.ID); err != nil {
@@ -254,7 +254,7 @@ WriteFieldEndError:
 }
 
 func (p *User) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Name", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("name", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Name); err != nil {
@@ -271,7 +271,7 @@ WriteFieldEndError:
 }
 
 func (p *User) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("FollowCount", thrift.I64, 3); err != nil {
+	if err = oprot.WriteFieldBegin("follow_count", thrift.I64, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.FollowCount); err != nil {
@@ -288,7 +288,7 @@ WriteFieldEndError:
 }
 
 func (p *User) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("FollowerCount", thrift.I64, 4); err != nil {
+	if err = oprot.WriteFieldBegin("follower_count", thrift.I64, 4); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.FollowerCount); err != nil {
@@ -305,7 +305,7 @@ WriteFieldEndError:
 }
 
 func (p *User) writeField5(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Is_follow", thrift.BOOL, 5); err != nil {
+	if err = oprot.WriteFieldBegin("is_follow", thrift.BOOL, 5); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteBool(p.IsFollow); err != nil {
@@ -329,14 +329,14 @@ func (p *User) String() string {
 }
 
 type Video struct {
-	ID            int64  `thrift:"ID,1" form:"id" json:"id"`
-	Author        *User  `thrift:"Author,2" form:"author" json:"author"`
-	PlayUrl       string `thrift:"PlayUrl,3" form:"play_url" json:"play_url"`
-	CoverUrl      string `thrift:"CoverUrl,4" form:"cover_url " json:"cover_url "`
-	FavoriteCount int64  `thrift:"FavoriteCount,5" form:"favorite_count" json:"favorite_count"`
-	CommentCount  int64  `thrift:"CommentCount,6" form:"comment_count" json:"comment_count"`
-	IsFavorite    bool   `thrift:"IsFavorite,7" form:"is_favorite" json:"is_favorite"`
-	Title         string `thrift:"Title,8" form:"title" json:"title"`
+	ID            int64  `thrift:"id,1" form:"id" json:"id"`
+	Author        *User  `thrift:"author,2" form:"author" json:"author"`
+	PlayURL       string `thrift:"play_url,3" form:"play_url" json:"play_url"`
+	CoverURL      string `thrift:"cover_url,4" form:"cover_url" json:"cover_url"`
+	FavoriteCount int64  `thrift:"favorite_count,5" form:"favorite_count" json:"favorite_count"`
+	CommentCount  int64  `thrift:"comment_count,6" form:"comment_count" json:"comment_count"`
+	IsFavorite    bool   `thrift:"is_favorite,7" form:"is_favorite" json:"is_favorite"`
+	Title         string `thrift:"title,8" form:"title" json:"title"`
 }
 
 func NewVideo() *Video {
@@ -356,12 +356,12 @@ func (p *Video) GetAuthor() (v *User) {
 	return p.Author
 }
 
-func (p *Video) GetPlayUrl() (v string) {
-	return p.PlayUrl
+func (p *Video) GetPlayURL() (v string) {
+	return p.PlayURL
 }
 
-func (p *Video) GetCoverUrl() (v string) {
-	return p.CoverUrl
+func (p *Video) GetCoverURL() (v string) {
+	return p.CoverURL
 }
 
 func (p *Video) GetFavoriteCount() (v int64) {
@@ -381,14 +381,14 @@ func (p *Video) GetTitle() (v string) {
 }
 
 var fieldIDToName_Video = map[int16]string{
-	1: "ID",
-	2: "Author",
-	3: "PlayUrl",
-	4: "CoverUrl",
-	5: "FavoriteCount",
-	6: "CommentCount",
-	7: "IsFavorite",
-	8: "Title",
+	1: "id",
+	2: "author",
+	3: "play_url",
+	4: "cover_url",
+	5: "favorite_count",
+	6: "comment_count",
+	7: "is_favorite",
+	8: "title",
 }
 
 func (p *Video) IsSetAuthor() bool {
@@ -545,7 +545,7 @@ func (p *Video) ReadField3(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.PlayUrl = v
+		p.PlayURL = v
 	}
 	return nil
 }
@@ -554,7 +554,7 @@ func (p *Video) ReadField4(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.CoverUrl = v
+		p.CoverURL = v
 	}
 	return nil
 }
@@ -653,7 +653,7 @@ WriteStructEndError:
 }
 
 func (p *Video) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("ID", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.ID); err != nil {
@@ -670,7 +670,7 @@ WriteFieldEndError:
 }
 
 func (p *Video) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Author", thrift.STRUCT, 2); err != nil {
+	if err = oprot.WriteFieldBegin("author", thrift.STRUCT, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := p.Author.Write(oprot); err != nil {
@@ -687,10 +687,10 @@ WriteFieldEndError:
 }
 
 func (p *Video) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("PlayUrl", thrift.STRING, 3); err != nil {
+	if err = oprot.WriteFieldBegin("play_url", thrift.STRING, 3); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.PlayUrl); err != nil {
+	if err := oprot.WriteString(p.PlayURL); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -704,10 +704,10 @@ WriteFieldEndError:
 }
 
 func (p *Video) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("CoverUrl", thrift.STRING, 4); err != nil {
+	if err = oprot.WriteFieldBegin("cover_url", thrift.STRING, 4); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.CoverUrl); err != nil {
+	if err := oprot.WriteString(p.CoverURL); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -721,7 +721,7 @@ WriteFieldEndError:
 }
 
 func (p *Video) writeField5(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("FavoriteCount", thrift.I64, 5); err != nil {
+	if err = oprot.WriteFieldBegin("favorite_count", thrift.I64, 5); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.FavoriteCount); err != nil {
@@ -738,7 +738,7 @@ WriteFieldEndError:
 }
 
 func (p *Video) writeField6(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("CommentCount", thrift.I64, 6); err != nil {
+	if err = oprot.WriteFieldBegin("comment_count", thrift.I64, 6); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.CommentCount); err != nil {
@@ -755,7 +755,7 @@ WriteFieldEndError:
 }
 
 func (p *Video) writeField7(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("IsFavorite", thrift.BOOL, 7); err != nil {
+	if err = oprot.WriteFieldBegin("is_favorite", thrift.BOOL, 7); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteBool(p.IsFavorite); err != nil {
@@ -772,7 +772,7 @@ WriteFieldEndError:
 }
 
 func (p *Video) writeField8(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Title", thrift.STRING, 8); err != nil {
+	if err = oprot.WriteFieldBegin("title", thrift.STRING, 8); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Title); err != nil {

@@ -9,9 +9,9 @@ import (
 )
 
 type DouyinPublishActionRequest struct {
-	Token string `thrift:"Token,1" form:"token" json:"Token"`
-	Data  []int8 `thrift:"Data,2" form:"data" json:"Data"`
-	Title string `thrift:"Title,3" form:"title" json:"Title"`
+	Token string `thrift:"token,1" form:"token" json:"token"`
+	Data  []int8 `thrift:"data,2" form:"data" json:"data"`
+	Title string `thrift:"title,3" form:"title" json:"title"`
 }
 
 func NewDouyinPublishActionRequest() *DouyinPublishActionRequest {
@@ -31,9 +31,9 @@ func (p *DouyinPublishActionRequest) GetTitle() (v string) {
 }
 
 var fieldIDToName_DouyinPublishActionRequest = map[int16]string{
-	1: "Token",
-	2: "Data",
-	3: "Title",
+	1: "token",
+	2: "data",
+	3: "title",
 }
 
 func (p *DouyinPublishActionRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -193,7 +193,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinPublishActionRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 1); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Token); err != nil {
@@ -210,7 +210,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinPublishActionRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Data", thrift.LIST, 2); err != nil {
+	if err = oprot.WriteFieldBegin("data", thrift.LIST, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteListBegin(thrift.BYTE, len(p.Data)); err != nil {
@@ -235,7 +235,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinPublishActionRequest) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Title", thrift.STRING, 3); err != nil {
+	if err = oprot.WriteFieldBegin("title", thrift.STRING, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Title); err != nil {
@@ -259,8 +259,8 @@ func (p *DouyinPublishActionRequest) String() string {
 }
 
 type DouyinPublishActionResponse struct {
-	StatusCode int64  `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg  string `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
+	StatusCode int64  `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg  string `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
 }
 
 func NewDouyinPublishActionResponse() *DouyinPublishActionResponse {
@@ -276,8 +276,8 @@ func (p *DouyinPublishActionResponse) GetStatusMsg() (v string) {
 }
 
 var fieldIDToName_DouyinPublishActionResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
+	1: "status_code",
+	2: "status_msg",
 }
 
 func (p *DouyinPublishActionResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -401,7 +401,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinPublishActionResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.StatusCode); err != nil {
@@ -418,7 +418,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinPublishActionResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {
@@ -442,8 +442,8 @@ func (p *DouyinPublishActionResponse) String() string {
 }
 
 type DouyinPublishListRequest struct {
-	Token  string `thrift:"Token,1" json:"Token" query:"token"`
-	UserID int64  `thrift:"UserID,2" json:"UserID" query:"user_id"`
+	Token  string `thrift:"token,1" json:"token" query:"token"`
+	UserID int64  `thrift:"user_id,2" json:"user_id" query:"user_id"`
 }
 
 func NewDouyinPublishListRequest() *DouyinPublishListRequest {
@@ -459,8 +459,8 @@ func (p *DouyinPublishListRequest) GetUserID() (v int64) {
 }
 
 var fieldIDToName_DouyinPublishListRequest = map[int16]string{
-	1: "Token",
-	2: "UserID",
+	1: "token",
+	2: "user_id",
 }
 
 func (p *DouyinPublishListRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -584,7 +584,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinPublishListRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 1); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Token); err != nil {
@@ -601,7 +601,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinPublishListRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserID", thrift.I64, 2); err != nil {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.UserID); err != nil {
@@ -625,9 +625,9 @@ func (p *DouyinPublishListRequest) String() string {
 }
 
 type DouyinPublishListResponse struct {
-	StatusCode int32           `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg  string          `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
-	VideoList  []*common.Video `thrift:"VideoList,3" form:"video_list" json:"video_list"`
+	StatusCode int32           `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg  string          `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
+	VideoList  []*common.Video `thrift:"video_list,3" form:"video_list" json:"video_list"`
 }
 
 func NewDouyinPublishListResponse() *DouyinPublishListResponse {
@@ -647,9 +647,9 @@ func (p *DouyinPublishListResponse) GetVideoList() (v []*common.Video) {
 }
 
 var fieldIDToName_DouyinPublishListResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
-	3: "VideoList",
+	1: "status_code",
+	2: "status_msg",
+	3: "video_list",
 }
 
 func (p *DouyinPublishListResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -807,7 +807,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinPublishListResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I32, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.StatusCode); err != nil {
@@ -824,7 +824,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinPublishListResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {
@@ -841,7 +841,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinPublishListResponse) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("VideoList", thrift.LIST, 3); err != nil {
+	if err = oprot.WriteFieldBegin("video_list", thrift.LIST, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.VideoList)); err != nil {

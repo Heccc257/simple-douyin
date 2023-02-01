@@ -420,9 +420,9 @@ func (p *DouyinMessageChatRequest) String() string {
 }
 
 type DouyinMessageChatResponse struct {
-	StatusCode  int32      `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg   string     `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
-	MessageList []*Message `thrift:"MessageList,3" form:"message_list" json:"message_list"`
+	StatusCode  int32      `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg   string     `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
+	MessageList []*Message `thrift:"message_list,3" form:"message_list" json:"message_list"`
 }
 
 func NewDouyinMessageChatResponse() *DouyinMessageChatResponse {
@@ -442,9 +442,9 @@ func (p *DouyinMessageChatResponse) GetMessageList() (v []*Message) {
 }
 
 var fieldIDToName_DouyinMessageChatResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
-	3: "MessageList",
+	1: "status_code",
+	2: "status_msg",
+	3: "message_list",
 }
 
 func (p *DouyinMessageChatResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -602,7 +602,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinMessageChatResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I32, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.StatusCode); err != nil {
@@ -619,7 +619,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinMessageChatResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {
@@ -636,7 +636,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinMessageChatResponse) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("MessageList", thrift.LIST, 3); err != nil {
+	if err = oprot.WriteFieldBegin("message_list", thrift.LIST, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.MessageList)); err != nil {
@@ -668,10 +668,10 @@ func (p *DouyinMessageChatResponse) String() string {
 }
 
 type DouyinMessageActionRequest struct {
-	Token      string `thrift:"Token,1" json:"Token" query:"token"`
-	ToUserID   int64  `thrift:"ToUserID,2" json:"ToUserID" query:"to_user_id"`
-	ActionType int32  `thrift:"ActionType,3" json:"ActionType" query:"action_type"`
-	Content    string `thrift:"Content,4" json:"Content" query:"content"`
+	Token      string `thrift:"token,1" json:"token" query:"token"`
+	ToUserID   int64  `thrift:"to_user_id,2" json:"to_user_id" query:"to_user_id"`
+	ActionType int32  `thrift:"action_type,3" json:"action_type" query:"action_type"`
+	Content    string `thrift:"content,4" json:"content" query:"content"`
 }
 
 func NewDouyinMessageActionRequest() *DouyinMessageActionRequest {
@@ -695,10 +695,10 @@ func (p *DouyinMessageActionRequest) GetContent() (v string) {
 }
 
 var fieldIDToName_DouyinMessageActionRequest = map[int16]string{
-	1: "Token",
-	2: "ToUserID",
-	3: "ActionType",
-	4: "Content",
+	1: "token",
+	2: "to_user_id",
+	3: "action_type",
+	4: "content",
 }
 
 func (p *DouyinMessageActionRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -868,7 +868,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinMessageActionRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 1); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Token); err != nil {
@@ -885,7 +885,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinMessageActionRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("ToUserID", thrift.I64, 2); err != nil {
+	if err = oprot.WriteFieldBegin("to_user_id", thrift.I64, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.ToUserID); err != nil {
@@ -902,7 +902,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinMessageActionRequest) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("ActionType", thrift.I32, 3); err != nil {
+	if err = oprot.WriteFieldBegin("action_type", thrift.I32, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.ActionType); err != nil {
@@ -919,7 +919,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinMessageActionRequest) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Content", thrift.STRING, 4); err != nil {
+	if err = oprot.WriteFieldBegin("content", thrift.STRING, 4); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Content); err != nil {
@@ -943,8 +943,8 @@ func (p *DouyinMessageActionRequest) String() string {
 }
 
 type DouyinMessageActionResponse struct {
-	StatusCode int32  `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg  string `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
+	StatusCode int32  `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg  string `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
 }
 
 func NewDouyinMessageActionResponse() *DouyinMessageActionResponse {
@@ -960,8 +960,8 @@ func (p *DouyinMessageActionResponse) GetStatusMsg() (v string) {
 }
 
 var fieldIDToName_DouyinMessageActionResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
+	1: "status_code",
+	2: "status_msg",
 }
 
 func (p *DouyinMessageActionResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -1085,7 +1085,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinMessageActionResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I32, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.StatusCode); err != nil {
@@ -1102,7 +1102,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinMessageActionResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {

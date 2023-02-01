@@ -9,9 +9,9 @@ import (
 )
 
 type DouyinRelationActionRequest struct {
-	Token      string `thrift:"Token,1" json:"Token" query:"token"`
-	ToUserID   int64  `thrift:"ToUserID,2" json:"ToUserID" query:"to_user_id"`
-	ActionType int32  `thrift:"ActionType,3" json:"ActionType" query:"action_type"`
+	Token      string `thrift:"token,1" json:"token" query:"token"`
+	ToUserID   int64  `thrift:"to_user_id,2" json:"to_user_id" query:"to_user_id"`
+	ActionType int32  `thrift:"action_type,3" json:"action_type" query:"action_type"`
 }
 
 func NewDouyinRelationActionRequest() *DouyinRelationActionRequest {
@@ -31,9 +31,9 @@ func (p *DouyinRelationActionRequest) GetActionType() (v int32) {
 }
 
 var fieldIDToName_DouyinRelationActionRequest = map[int16]string{
-	1: "Token",
-	2: "ToUserID",
-	3: "ActionType",
+	1: "token",
+	2: "to_user_id",
+	3: "action_type",
 }
 
 func (p *DouyinRelationActionRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -180,7 +180,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinRelationActionRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 1); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Token); err != nil {
@@ -197,7 +197,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinRelationActionRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("ToUserID", thrift.I64, 2); err != nil {
+	if err = oprot.WriteFieldBegin("to_user_id", thrift.I64, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.ToUserID); err != nil {
@@ -214,7 +214,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinRelationActionRequest) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("ActionType", thrift.I32, 3); err != nil {
+	if err = oprot.WriteFieldBegin("action_type", thrift.I32, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.ActionType); err != nil {
@@ -238,8 +238,8 @@ func (p *DouyinRelationActionRequest) String() string {
 }
 
 type DouyinRelationActionResponse struct {
-	StatusCode int32  `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg  string `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
+	StatusCode int32  `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg  string `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
 }
 
 func NewDouyinRelationActionResponse() *DouyinRelationActionResponse {
@@ -255,8 +255,8 @@ func (p *DouyinRelationActionResponse) GetStatusMsg() (v string) {
 }
 
 var fieldIDToName_DouyinRelationActionResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
+	1: "status_code",
+	2: "status_msg",
 }
 
 func (p *DouyinRelationActionResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -380,7 +380,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinRelationActionResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I32, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.StatusCode); err != nil {
@@ -397,7 +397,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinRelationActionResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {
@@ -421,8 +421,8 @@ func (p *DouyinRelationActionResponse) String() string {
 }
 
 type DouyinRelationFollowListRequest struct {
-	UserID int64  `thrift:"UserID,1" json:"UserID" query:"user_id"`
-	Token  string `thrift:"Token,2" json:"Token" query:"token"`
+	UserID int64  `thrift:"user_id,1" json:"user_id" query:"user_id"`
+	Token  string `thrift:"token,2" json:"token" query:"token"`
 }
 
 func NewDouyinRelationFollowListRequest() *DouyinRelationFollowListRequest {
@@ -438,8 +438,8 @@ func (p *DouyinRelationFollowListRequest) GetToken() (v string) {
 }
 
 var fieldIDToName_DouyinRelationFollowListRequest = map[int16]string{
-	1: "UserID",
-	2: "Token",
+	1: "user_id",
+	2: "token",
 }
 
 func (p *DouyinRelationFollowListRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -563,7 +563,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinRelationFollowListRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserID", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.UserID); err != nil {
@@ -580,7 +580,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinRelationFollowListRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Token); err != nil {
@@ -604,9 +604,9 @@ func (p *DouyinRelationFollowListRequest) String() string {
 }
 
 type DouyinRelationFollowListResponse struct {
-	StatusCode int32          `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg  string         `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
-	UserList   []*common.User `thrift:"UserList,3" form:"user_list" json:"user_list"`
+	StatusCode int32          `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg  string         `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
+	UserList   []*common.User `thrift:"user_list,3" form:"user_list" json:"user_list"`
 }
 
 func NewDouyinRelationFollowListResponse() *DouyinRelationFollowListResponse {
@@ -626,9 +626,9 @@ func (p *DouyinRelationFollowListResponse) GetUserList() (v []*common.User) {
 }
 
 var fieldIDToName_DouyinRelationFollowListResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
-	3: "UserList",
+	1: "status_code",
+	2: "status_msg",
+	3: "user_list",
 }
 
 func (p *DouyinRelationFollowListResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -786,7 +786,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinRelationFollowListResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I32, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.StatusCode); err != nil {
@@ -803,7 +803,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinRelationFollowListResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {
@@ -820,7 +820,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinRelationFollowListResponse) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserList", thrift.LIST, 3); err != nil {
+	if err = oprot.WriteFieldBegin("user_list", thrift.LIST, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.UserList)); err != nil {
@@ -852,8 +852,8 @@ func (p *DouyinRelationFollowListResponse) String() string {
 }
 
 type DouyinRelationFollowerListRequest struct {
-	UserID int64  `thrift:"UserID,1" json:"UserID" query:"user_id"`
-	Token  string `thrift:"Token,2" json:"Token" query:"token"`
+	UserID int64  `thrift:"user_id,1" json:"user_id" query:"user_id"`
+	Token  string `thrift:"token,2" json:"token" query:"token"`
 }
 
 func NewDouyinRelationFollowerListRequest() *DouyinRelationFollowerListRequest {
@@ -869,8 +869,8 @@ func (p *DouyinRelationFollowerListRequest) GetToken() (v string) {
 }
 
 var fieldIDToName_DouyinRelationFollowerListRequest = map[int16]string{
-	1: "UserID",
-	2: "Token",
+	1: "user_id",
+	2: "token",
 }
 
 func (p *DouyinRelationFollowerListRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -994,7 +994,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinRelationFollowerListRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserID", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.UserID); err != nil {
@@ -1011,7 +1011,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinRelationFollowerListRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Token); err != nil {
@@ -1035,9 +1035,9 @@ func (p *DouyinRelationFollowerListRequest) String() string {
 }
 
 type DouyinRelationFollowerListResponse struct {
-	StatusCode int32          `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg  string         `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
-	UserList   []*common.User `thrift:"UserList,3" form:"user_list" json:"user_list"`
+	StatusCode int32          `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg  string         `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
+	UserList   []*common.User `thrift:"user_list,3" form:"user_list" json:"user_list"`
 }
 
 func NewDouyinRelationFollowerListResponse() *DouyinRelationFollowerListResponse {
@@ -1057,9 +1057,9 @@ func (p *DouyinRelationFollowerListResponse) GetUserList() (v []*common.User) {
 }
 
 var fieldIDToName_DouyinRelationFollowerListResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
-	3: "UserList",
+	1: "status_code",
+	2: "status_msg",
+	3: "user_list",
 }
 
 func (p *DouyinRelationFollowerListResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -1217,7 +1217,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinRelationFollowerListResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I32, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.StatusCode); err != nil {
@@ -1234,7 +1234,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinRelationFollowerListResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {
@@ -1251,7 +1251,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinRelationFollowerListResponse) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserList", thrift.LIST, 3); err != nil {
+	if err = oprot.WriteFieldBegin("user_list", thrift.LIST, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.UserList)); err != nil {
@@ -1283,8 +1283,8 @@ func (p *DouyinRelationFollowerListResponse) String() string {
 }
 
 type DouyinRelationFriendListRequest struct {
-	UserID int64  `thrift:"UserID,1" json:"UserID" query:"user_id"`
-	Token  string `thrift:"Token,2" json:"Token" query:"token"`
+	UserID int64  `thrift:"user_id,1" json:"user_id" query:"user_id"`
+	Token  string `thrift:"token,2" json:"token" query:"token"`
 }
 
 func NewDouyinRelationFriendListRequest() *DouyinRelationFriendListRequest {
@@ -1300,8 +1300,8 @@ func (p *DouyinRelationFriendListRequest) GetToken() (v string) {
 }
 
 var fieldIDToName_DouyinRelationFriendListRequest = map[int16]string{
-	1: "UserID",
-	2: "Token",
+	1: "user_id",
+	2: "token",
 }
 
 func (p *DouyinRelationFriendListRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -1425,7 +1425,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinRelationFriendListRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserID", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.UserID); err != nil {
@@ -1442,7 +1442,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinRelationFriendListRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Token); err != nil {
@@ -1466,9 +1466,9 @@ func (p *DouyinRelationFriendListRequest) String() string {
 }
 
 type DouyinRelationFriendListResponse struct {
-	StatusCode int32          `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg  string         `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
-	UserList   []*common.User `thrift:"UserList,3" form:"user_list" json:"user_list"`
+	StatusCode int32          `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg  string         `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
+	UserList   []*common.User `thrift:"user_list,3" form:"user_list" json:"user_list"`
 }
 
 func NewDouyinRelationFriendListResponse() *DouyinRelationFriendListResponse {
@@ -1488,9 +1488,9 @@ func (p *DouyinRelationFriendListResponse) GetUserList() (v []*common.User) {
 }
 
 var fieldIDToName_DouyinRelationFriendListResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
-	3: "UserList",
+	1: "status_code",
+	2: "status_msg",
+	3: "user_list",
 }
 
 func (p *DouyinRelationFriendListResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -1648,7 +1648,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinRelationFriendListResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I32, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.StatusCode); err != nil {
@@ -1665,7 +1665,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinRelationFriendListResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {
@@ -1682,7 +1682,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinRelationFriendListResponse) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserList", thrift.LIST, 3); err != nil {
+	if err = oprot.WriteFieldBegin("user_list", thrift.LIST, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.UserList)); err != nil {

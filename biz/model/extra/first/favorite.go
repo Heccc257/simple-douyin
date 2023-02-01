@@ -9,9 +9,9 @@ import (
 )
 
 type DouyinFavoriteActionRequest struct {
-	Token      string `thrift:"Token,1" json:"Token" query:"token"`
-	VideoID    int64  `thrift:"VideoID,2" json:"VideoID" query:"video_id"`
-	ActionType int32  `thrift:"ActionType,3" json:"ActionType" query:"action_type"`
+	Token      string `thrift:"token,1" json:"token" query:"token"`
+	VideoID    int64  `thrift:"video_id,2" json:"video_id" query:"video_id"`
+	ActionType int32  `thrift:"action_type,3" json:"action_type" query:"action_type"`
 }
 
 func NewDouyinFavoriteActionRequest() *DouyinFavoriteActionRequest {
@@ -31,9 +31,9 @@ func (p *DouyinFavoriteActionRequest) GetActionType() (v int32) {
 }
 
 var fieldIDToName_DouyinFavoriteActionRequest = map[int16]string{
-	1: "Token",
-	2: "VideoID",
-	3: "ActionType",
+	1: "token",
+	2: "video_id",
+	3: "action_type",
 }
 
 func (p *DouyinFavoriteActionRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -180,7 +180,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinFavoriteActionRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 1); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Token); err != nil {
@@ -197,7 +197,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinFavoriteActionRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("VideoID", thrift.I64, 2); err != nil {
+	if err = oprot.WriteFieldBegin("video_id", thrift.I64, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.VideoID); err != nil {
@@ -214,7 +214,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinFavoriteActionRequest) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("ActionType", thrift.I32, 3); err != nil {
+	if err = oprot.WriteFieldBegin("action_type", thrift.I32, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.ActionType); err != nil {
@@ -238,8 +238,8 @@ func (p *DouyinFavoriteActionRequest) String() string {
 }
 
 type DouyinFavoriteActionResponse struct {
-	StatusCode int32  `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg  string `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
+	StatusCode int32  `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg  string `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
 }
 
 func NewDouyinFavoriteActionResponse() *DouyinFavoriteActionResponse {
@@ -255,8 +255,8 @@ func (p *DouyinFavoriteActionResponse) GetStatusMsg() (v string) {
 }
 
 var fieldIDToName_DouyinFavoriteActionResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
+	1: "status_code",
+	2: "status_msg",
 }
 
 func (p *DouyinFavoriteActionResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -380,7 +380,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinFavoriteActionResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I32, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.StatusCode); err != nil {
@@ -397,7 +397,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinFavoriteActionResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {
@@ -421,8 +421,8 @@ func (p *DouyinFavoriteActionResponse) String() string {
 }
 
 type DouyinFavoriteListRequest struct {
-	UserID int64  `thrift:"UserID,1" json:"UserID" query:"user_id"`
-	Token  string `thrift:"Token,2" json:"Token" query:"token"`
+	UserID int64  `thrift:"user_id,1" json:"user_id" query:"user_id"`
+	Token  string `thrift:"token,2" json:"token" query:"token"`
 }
 
 func NewDouyinFavoriteListRequest() *DouyinFavoriteListRequest {
@@ -438,8 +438,8 @@ func (p *DouyinFavoriteListRequest) GetToken() (v string) {
 }
 
 var fieldIDToName_DouyinFavoriteListRequest = map[int16]string{
-	1: "UserID",
-	2: "Token",
+	1: "user_id",
+	2: "token",
 }
 
 func (p *DouyinFavoriteListRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -563,7 +563,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinFavoriteListRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserID", thrift.I64, 1); err != nil {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.UserID); err != nil {
@@ -580,7 +580,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinFavoriteListRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Token); err != nil {
@@ -604,9 +604,9 @@ func (p *DouyinFavoriteListRequest) String() string {
 }
 
 type DouyinFavoriteListResponse struct {
-	StatusCode int32           `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg  string          `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
-	VideoList  []*common.Video `thrift:"VideoList,3" form:"video_list" json:"video_list"`
+	StatusCode int32           `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg  string          `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
+	VideoList  []*common.Video `thrift:"video_list,3" form:"video_list" json:"video_list"`
 }
 
 func NewDouyinFavoriteListResponse() *DouyinFavoriteListResponse {
@@ -626,9 +626,9 @@ func (p *DouyinFavoriteListResponse) GetVideoList() (v []*common.Video) {
 }
 
 var fieldIDToName_DouyinFavoriteListResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
-	3: "VideoList",
+	1: "status_code",
+	2: "status_msg",
+	3: "video_list",
 }
 
 func (p *DouyinFavoriteListResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -786,7 +786,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinFavoriteListResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I32, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.StatusCode); err != nil {
@@ -803,7 +803,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinFavoriteListResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {
@@ -820,7 +820,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinFavoriteListResponse) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("VideoList", thrift.LIST, 3); err != nil {
+	if err = oprot.WriteFieldBegin("video_list", thrift.LIST, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.VideoList)); err != nil {

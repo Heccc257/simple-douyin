@@ -9,25 +9,25 @@ import (
 )
 
 type DouyinUserRegisterRequest struct {
-	UserName string `thrift:"UserName,1" json:"UserName" query:"username"`
-	PassWord string `thrift:"PassWord,2" json:"PassWord" query:"password"`
+	Username string `thrift:"username,1" json:"username" query:"username"`
+	Password string `thrift:"password,2" json:"password" query:"password"`
 }
 
 func NewDouyinUserRegisterRequest() *DouyinUserRegisterRequest {
 	return &DouyinUserRegisterRequest{}
 }
 
-func (p *DouyinUserRegisterRequest) GetUserName() (v string) {
-	return p.UserName
+func (p *DouyinUserRegisterRequest) GetUsername() (v string) {
+	return p.Username
 }
 
-func (p *DouyinUserRegisterRequest) GetPassWord() (v string) {
-	return p.PassWord
+func (p *DouyinUserRegisterRequest) GetPassword() (v string) {
+	return p.Password
 }
 
 var fieldIDToName_DouyinUserRegisterRequest = map[int16]string{
-	1: "UserName",
-	2: "PassWord",
+	1: "username",
+	2: "password",
 }
 
 func (p *DouyinUserRegisterRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -103,7 +103,7 @@ func (p *DouyinUserRegisterRequest) ReadField1(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.UserName = v
+		p.Username = v
 	}
 	return nil
 }
@@ -112,7 +112,7 @@ func (p *DouyinUserRegisterRequest) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.PassWord = v
+		p.Password = v
 	}
 	return nil
 }
@@ -151,10 +151,10 @@ WriteStructEndError:
 }
 
 func (p *DouyinUserRegisterRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserName", thrift.STRING, 1); err != nil {
+	if err = oprot.WriteFieldBegin("username", thrift.STRING, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.UserName); err != nil {
+	if err := oprot.WriteString(p.Username); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -168,10 +168,10 @@ WriteFieldEndError:
 }
 
 func (p *DouyinUserRegisterRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("PassWord", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("password", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.PassWord); err != nil {
+	if err := oprot.WriteString(p.Password); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -192,10 +192,10 @@ func (p *DouyinUserRegisterRequest) String() string {
 }
 
 type DouyinUserRegisterResponse struct {
-	StatusCode int32  `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg  string `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
-	UserID     int64  `thrift:"UserID,3" form:"user_id" json:"user_id"`
-	Token      string `thrift:"Token,4" form:"token" json:"token"`
+	StatusCode int32  `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg  string `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
+	UserID     int64  `thrift:"user_id,3" form:"user_id" json:"user_id"`
+	Token      string `thrift:"token,4" form:"token" json:"token"`
 }
 
 func NewDouyinUserRegisterResponse() *DouyinUserRegisterResponse {
@@ -219,10 +219,10 @@ func (p *DouyinUserRegisterResponse) GetToken() (v string) {
 }
 
 var fieldIDToName_DouyinUserRegisterResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
-	3: "UserID",
-	4: "Token",
+	1: "status_code",
+	2: "status_msg",
+	3: "user_id",
+	4: "token",
 }
 
 func (p *DouyinUserRegisterResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -392,7 +392,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinUserRegisterResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I32, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.StatusCode); err != nil {
@@ -409,7 +409,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinUserRegisterResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {
@@ -426,7 +426,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinUserRegisterResponse) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserID", thrift.I64, 3); err != nil {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.UserID); err != nil {
@@ -443,7 +443,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinUserRegisterResponse) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 4); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 4); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Token); err != nil {
@@ -467,25 +467,25 @@ func (p *DouyinUserRegisterResponse) String() string {
 }
 
 type DouyinUserLoginRequest struct {
-	UserName string `thrift:"UserName,1" json:"UserName" query:"username"`
-	PassWord string `thrift:"PassWord,2" json:"PassWord" query:"password"`
+	Username string `thrift:"username,1" json:"username" query:"username"`
+	Password string `thrift:"password,2" json:"password" query:"password"`
 }
 
 func NewDouyinUserLoginRequest() *DouyinUserLoginRequest {
 	return &DouyinUserLoginRequest{}
 }
 
-func (p *DouyinUserLoginRequest) GetUserName() (v string) {
-	return p.UserName
+func (p *DouyinUserLoginRequest) GetUsername() (v string) {
+	return p.Username
 }
 
-func (p *DouyinUserLoginRequest) GetPassWord() (v string) {
-	return p.PassWord
+func (p *DouyinUserLoginRequest) GetPassword() (v string) {
+	return p.Password
 }
 
 var fieldIDToName_DouyinUserLoginRequest = map[int16]string{
-	1: "UserName",
-	2: "PassWord",
+	1: "username",
+	2: "password",
 }
 
 func (p *DouyinUserLoginRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -561,7 +561,7 @@ func (p *DouyinUserLoginRequest) ReadField1(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.UserName = v
+		p.Username = v
 	}
 	return nil
 }
@@ -570,7 +570,7 @@ func (p *DouyinUserLoginRequest) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.PassWord = v
+		p.Password = v
 	}
 	return nil
 }
@@ -609,10 +609,10 @@ WriteStructEndError:
 }
 
 func (p *DouyinUserLoginRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserName", thrift.STRING, 1); err != nil {
+	if err = oprot.WriteFieldBegin("username", thrift.STRING, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.UserName); err != nil {
+	if err := oprot.WriteString(p.Username); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -626,10 +626,10 @@ WriteFieldEndError:
 }
 
 func (p *DouyinUserLoginRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("PassWord", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("password", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.PassWord); err != nil {
+	if err := oprot.WriteString(p.Password); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -650,10 +650,10 @@ func (p *DouyinUserLoginRequest) String() string {
 }
 
 type DouyinUserLoginResponse struct {
-	StatusCode int32  `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg  string `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
-	UserID     int64  `thrift:"UserID,3" form:"user_id" json:"user_id"`
-	Token      string `thrift:"Token,4" form:"token" json:"token"`
+	StatusCode int32  `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg  string `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
+	UserID     int64  `thrift:"user_id,3" form:"user_id" json:"user_id"`
+	Token      string `thrift:"token,4" form:"token" json:"token"`
 }
 
 func NewDouyinUserLoginResponse() *DouyinUserLoginResponse {
@@ -677,10 +677,10 @@ func (p *DouyinUserLoginResponse) GetToken() (v string) {
 }
 
 var fieldIDToName_DouyinUserLoginResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
-	3: "UserID",
-	4: "Token",
+	1: "status_code",
+	2: "status_msg",
+	3: "user_id",
+	4: "token",
 }
 
 func (p *DouyinUserLoginResponse) Read(iprot thrift.TProtocol) (err error) {
@@ -850,7 +850,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinUserLoginResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I32, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.StatusCode); err != nil {
@@ -867,7 +867,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinUserLoginResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {
@@ -884,7 +884,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinUserLoginResponse) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserID", thrift.I64, 3); err != nil {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.UserID); err != nil {
@@ -901,7 +901,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinUserLoginResponse) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 4); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 4); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Token); err != nil {
@@ -925,8 +925,8 @@ func (p *DouyinUserLoginResponse) String() string {
 }
 
 type DouyinUserRequest struct {
-	UserID string `thrift:"UserID,1" json:"UserID" query:"user_id"`
-	Token  string `thrift:"Token,2" json:"Token" query:"token"`
+	UserID string `thrift:"user_id,1" json:"user_id" query:"user_id"`
+	Token  string `thrift:"token,2" json:"token" query:"token"`
 }
 
 func NewDouyinUserRequest() *DouyinUserRequest {
@@ -942,8 +942,8 @@ func (p *DouyinUserRequest) GetToken() (v string) {
 }
 
 var fieldIDToName_DouyinUserRequest = map[int16]string{
-	1: "UserID",
-	2: "Token",
+	1: "user_id",
+	2: "token",
 }
 
 func (p *DouyinUserRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -1067,7 +1067,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinUserRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("UserID", thrift.STRING, 1); err != nil {
+	if err = oprot.WriteFieldBegin("user_id", thrift.STRING, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.UserID); err != nil {
@@ -1084,7 +1084,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinUserRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Token", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("token", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.Token); err != nil {
@@ -1108,9 +1108,9 @@ func (p *DouyinUserRequest) String() string {
 }
 
 type DouyinUserResponse struct {
-	StatusCode int32        `thrift:"StatusCode,1" form:"status_code" json:"status_code"`
-	StatusMsg  string       `thrift:"StatusMsg,2" form:"status_msg" json:"status_msg"`
-	User       *common.User `thrift:"User,3" form:"user" json:"user"`
+	StatusCode int32        `thrift:"status_code,1" form:"status_code" json:"status_code"`
+	StatusMsg  string       `thrift:"status_msg,2" form:"status_msg" json:"status_msg"`
+	User       *common.User `thrift:"user,3" form:"user" json:"user"`
 }
 
 func NewDouyinUserResponse() *DouyinUserResponse {
@@ -1135,9 +1135,9 @@ func (p *DouyinUserResponse) GetUser() (v *common.User) {
 }
 
 var fieldIDToName_DouyinUserResponse = map[int16]string{
-	1: "StatusCode",
-	2: "StatusMsg",
-	3: "User",
+	1: "status_code",
+	2: "status_msg",
+	3: "user",
 }
 
 func (p *DouyinUserResponse) IsSetUser() bool {
@@ -1287,7 +1287,7 @@ WriteStructEndError:
 }
 
 func (p *DouyinUserResponse) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusCode", thrift.I32, 1); err != nil {
+	if err = oprot.WriteFieldBegin("status_code", thrift.I32, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI32(p.StatusCode); err != nil {
@@ -1304,7 +1304,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinUserResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("StatusMsg", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("status_msg", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteString(p.StatusMsg); err != nil {
@@ -1321,7 +1321,7 @@ WriteFieldEndError:
 }
 
 func (p *DouyinUserResponse) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("User", thrift.STRUCT, 3); err != nil {
+	if err = oprot.WriteFieldBegin("user", thrift.STRUCT, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := p.User.Write(oprot); err != nil {

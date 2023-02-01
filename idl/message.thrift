@@ -19,19 +19,19 @@ struct DouyinMessageChatRequest {
 }
 
 struct DouyinMessageChatResponse {
-    1: i32 StatusCode (api.body="status_code")
-    2: string StatusMsg (api.body="status_msg")
-    3: list<Message> MessageList (api.body="message_list")
+    1: i32 status_code (api.body="status_code")
+    2: string status_msg (api.body="status_msg")
+    3: list<Message> message_list (api.body="message_list")
 }
 
 struct DouyinMessageActionRequest {
-    1: string Token (api.query="token")
-    2: i64 ToUserID (api.query="to_user_id")
-    3: i32 ActionType (api.query="action_type")
-    4: string Content (api.query="content")
+    1: string token (api.query="token")
+    2: i64 to_user_id (api.query="to_user_id")
+    3: i32 action_type (api.query="action_type")
+    4: string content (api.query="content")
 }
 
 struct DouyinMessageActionResponse {
-    1: i32 StatusCode (api.body="status_code")
-    2: string StatusMsg (api.body="status_msg")
+    1: i32 status_code (api.body="status_code")
+    2: string status_msg (api.body="status_msg")
 }
