@@ -8,10 +8,10 @@ import (
 
 type UserEntry struct {
 	gorm.Model
-	UID           int64  `gorm:"column:uid"`
-	Name          string `gorm:"column:name"`
-	FollowCount   int64  `gorm:"column:follow_count"`
-	FollowerCount int64  `gorm:"column:follower_count"`
+	UID           int64
+	Name          string
+	FollowCount   int64
+	FollowerCount int64
 	IsFollow      bool
 }
 
