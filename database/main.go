@@ -70,7 +70,7 @@ func FindUserEntry(u *common.User) *UserEntry {
 	return &ue
 }
 
-func Feed(latest_time int64) ([]*common.Video, int64, error) {
+func FindVideosBefore(latest_time int64) ([]*common.Video, int64, error) {
 	var ves []VideoEntry
 	if result := db.Where("created_at < ?", time.Unix(latest_time, 0)).Order("created_at desc").Limit(30).Find(&ves); result.Error != nil {
 		return nil, 0, result.Error

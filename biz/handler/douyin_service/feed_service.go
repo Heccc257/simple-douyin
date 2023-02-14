@@ -31,7 +31,7 @@ func Feed(ctx context.Context, c *app.RequestContext) {
 	fmt.Printf("%+v\n", req)
 
 	resp := new(core.DouyinFeedResponse)
-	if videos, latest_time, err := database.Feed(req.LatestTime); err != nil {
+	if videos, latest_time, err := database.FindVideosBefore(req.LatestTime); err != nil {
 		resp.StatusCode = -1
 		resp.StatusMsg = err.Error()
 	} else {
