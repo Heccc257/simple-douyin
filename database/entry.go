@@ -16,7 +16,13 @@ type UserEntry struct {
 }
 
 func User2UserEntry(u *common.User) *UserEntry {
-	return &UserEntry{}
+	return &UserEntry{
+		UID:           u.ID,
+		Name:          u.Name,
+		FollowCount:   u.FollowCount,
+		FollowerCount: u.FollowerCount,
+		IsFollow:      u.IsFollow,
+	}
 }
 
 func UserEntry2User(ue *UserEntry) *common.User {
@@ -43,7 +49,17 @@ type VideoEntry struct {
 }
 
 func Video2VideoEntry(v *common.Video) *VideoEntry {
-	return &VideoEntry{}
+	ue := FindUserEntry(v.Author)
+	return &VideoEntry{
+		VID:           v.ID,
+		PlayURL:       v.PlayURL,
+		CoverURL:      v.CoverURL,
+		FavoriteCount: v.FavoriteCount,
+		CommentCount:  v.CommentCount,
+		IsFavorite:    v.IsFavorite,
+		Title:         v.Title,
+		UserEntryID:   ue.UID,
+	}
 }
 
 func VideoEntry2Video(ve *VideoEntry) *common.Video {

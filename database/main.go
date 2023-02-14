@@ -2,13 +2,17 @@ package database
 
 import (
 	"log"
+	"simple_douyin/biz/model/common"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
+var db *gorm.DB
+var err error
+
 func Init() {
-	db, err := gorm.Open(sqlite.Open("douyin.db"), &gorm.Config{})
+	db, err = gorm.Open(sqlite.Open("douyin.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -40,8 +44,9 @@ func Init() {
 	log.Println("tables: ", tables)
 
 	// var user UserEntry
-	// db.First(&user)
+	// result := db.First(&user, 1)
 	// fmt.Println("````````````````````````")
+	// fmt.Println("res: ", result.Error)
 	// fmt.Println("user: ", user)
 	// fmt.Println("````````````````````````")
 
@@ -50,4 +55,15 @@ func Init() {
 	// fmt.Println("````````````````````````")
 	// fmt.Println("videos: ", vs)
 	// fmt.Println("````````````````````````")
+}
+
+func FindUserEntry(u *common.User) *UserEntry {
+	var ue UserEntry
+	// 保证名字唯一，所以可以按名字来查找
+	if result := db.Where("name = ?", u.Name).First(&ue); result.Error != nil {
+		// 未找到时默认返回unknown用户
+		db.First(&ue, 1)
+	}
+
+	return &ue
 }
