@@ -25,5 +25,7 @@ func Feed(ctx context.Context, c *app.RequestContext) {
 	fmt.Printf("%+v\n", req)
 	resp := new(core.DouyinFeedResponse)
 
+	fmt.Printf("%+v", req)
+
 	c.JSON(consts.StatusOK, resp)
 }
