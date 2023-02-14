@@ -1,4 +1,4 @@
-package databases
+package database
 
 import (
 	"simple_douyin/biz/model/common"
@@ -39,7 +39,7 @@ type VideoEntry struct {
 	CommentCount  int64
 	IsFavorite    bool
 	Title         string
-	UserEntryID   int64
+	UserEntryID   int64 `gorm:"default:1"`
 }
 
 func Video2VideoEntry(v *common.Video) *VideoEntry {
