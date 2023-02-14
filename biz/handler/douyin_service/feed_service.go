@@ -7,6 +7,7 @@ import (
 	"fmt"
 
 	core "simple_douyin/biz/model/core"
+	"simple_douyin/database"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -22,10 +23,21 @@ func Feed(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	fmt.Printf("%+v\n", req)
-	resp := new(core.DouyinFeedResponse)
+	if req.LatestTime == 0 {
+		// maxint64
+		req.LatestTime = 9223372036854775807
+	}
 
-	fmt.Printf("%+v", req)
+	fmt.Printf("%+v\n", req)
+
+	resp := new(core.DouyinFeedResponse)
+	if videos, latest_time, err := database.Feed(req.LatestTime); err != nil {
+		resp.StatusCode = -1
+		resp.StatusMsg = err.Error()
+	} else {
+		resp.NextTime = latest_time
+		resp.VideoList = videos
+	}
 
 	c.JSON(consts.StatusOK, resp)
 }

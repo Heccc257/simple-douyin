@@ -5,6 +5,7 @@ import (
 	"os"
 	"simple_douyin/biz/model/common"
 	"testing"
+	"time"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -30,4 +31,13 @@ func TestFindUserEntry(t *testing.T) {
 		Name: "2333",
 	})
 	fmt.Println(*ue)
+}
+
+func TestFeed(t *testing.T) {
+	videos, latest_time, err := Feed(9223372036854775807)
+	fmt.Println("max time ", time.Unix(9223372036854775807, 0))
+	fmt.Println("time: ", latest_time)
+	fmt.Println("err: ", err)
+	fmt.Println("videos: ", videos)
+
 }
