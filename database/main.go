@@ -15,6 +15,8 @@ func Init() {
 
 	// db.Migrator().DropTable("user_entries", "video_entries")
 
+	// 创建表之后会默认添加一个unknown用户
+	// 以及两个作者为unkn的视频
 	if exist := db.Migrator().HasTable("user_entries"); !exist {
 		if err := db.AutoMigrate(&UserEntry{}); err != nil {
 			log.Fatal(err)
