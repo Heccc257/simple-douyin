@@ -38,7 +38,7 @@ func UserEntry2User(ue *UserEntry) *common.User {
 type VideoEntry struct {
 	gorm.Model
 	VID           int64
-	Author        UserEntry `gorm:"ForeignKey:UserEntryID"`
+	Author        UserEntry `gorm:"foreignKey:UserEntryID"`
 	PlayURL       string
 	CoverURL      string
 	FavoriteCount int64
@@ -49,7 +49,6 @@ type VideoEntry struct {
 }
 
 func Video2VideoEntry(v *common.Video) *VideoEntry {
-	ue := FindUserEntry(v.Author)
 	return &VideoEntry{
 		VID:           v.ID,
 		PlayURL:       v.PlayURL,
@@ -58,14 +57,18 @@ func Video2VideoEntry(v *common.Video) *VideoEntry {
 		CommentCount:  v.CommentCount,
 		IsFavorite:    v.IsFavorite,
 		Title:         v.Title,
-		UserEntryID:   ue.UID,
+		UserEntryID:   int64(FindUserEntry(v.Author).Model.ID),
 	}
 }
 
 func VideoEntry2Video(ve *VideoEntry) *common.Video {
+	var ue UserEntry
+	if res := db.First(&ue, ve.UserEntryID); res.Error != nil {
+		db.First(&ue, 1)
+	}
 	return &common.Video{
 		ID:            ve.VID,
-		Author:        UserEntry2User(&ve.Author),
+		Author:        UserEntry2User(&ue),
 		PlayURL:       ve.PlayURL,
 		CoverURL:      ve.CoverURL,
 		FavoriteCount: ve.FavoriteCount,
