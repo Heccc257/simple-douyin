@@ -46,15 +46,18 @@ func Register(ctx context.Context, c *app.RequestContext) {
 	resp := new(core.DouyinUserRegisterResponse)
 
 	if Len := len(req.Username); Len > 32 || Len == 0 {
+		// 用户名长度不对
 		resp.StatusCode = -1
 		resp.StatusMsg = "Username too long or to short"
 	} else if Len := len(req.Password); Len > 32 || Len == 0 {
+		// 密码长度对
 		resp.StatusCode = -1
 		resp.StatusMsg = "Password too long or to short"
 	} else {
 		if database.UserExist(req.Username) {
+			// 用户名已存在
 			resp.StatusCode = -1
-			resp.StatusMsg = "User exist!"
+			resp.StatusMsg = "User name exist!"
 		} else {
 			user := &common.User{
 				ID:   int64(assignUserID()),
@@ -66,6 +69,7 @@ func Register(ctx context.Context, c *app.RequestContext) {
 				resp.StatusCode = -1
 				resp.StatusMsg = err.Error()
 			} else {
+				// Token返回为用户名+当前时间
 				resp.StatusCode = 0
 				resp.UserID = user.ID
 				resp.Token = req.Username + " " + time.Now().GoString()
