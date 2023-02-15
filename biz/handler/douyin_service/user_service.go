@@ -48,16 +48,15 @@ func Register(ctx context.Context, c *app.RequestContext) {
 	if Len := len(req.Username); Len > 32 || Len == 0 {
 		// 用户名长度不对
 		resp.StatusCode = -1
-		resp.StatusMsg = "Username too long or to short"
+		resp.StatusMsg = "username too long or to short"
 	} else if Len := len(req.Password); Len > 32 || Len == 0 {
 		// 密码长度对
 		resp.StatusCode = -1
-		resp.StatusMsg = "Password too long or to short"
+		resp.StatusMsg = "password too long or to short"
 	} else {
 		if database.UserExist(req.Username) {
 			// 用户名已存在
-			resp.StatusCode = -1
-			resp.StatusMsg = "User name exist!"
+			resp.StatusCode, resp.StatusMsg = -1, "User name exist!"
 		} else {
 			user := &common.User{
 				ID:   int64(assignUserID()),
@@ -66,11 +65,11 @@ func Register(ctx context.Context, c *app.RequestContext) {
 			err := database.UpdateUser(user, req.Password)
 			if err != nil {
 				// update err
-				resp.StatusCode = -1
-				resp.StatusMsg = err.Error()
+				resp.StatusCode, resp.StatusMsg = -1, err.Error()
 			} else {
 				// Token返回为用户名+当前时间
 				resp.StatusCode = 0
+				resp.StatusMsg = "register success"
 				resp.UserID = user.ID
 				resp.Token = req.Username + " " + time.Now().GoString()
 				log.Printf("user %s registered\n", req.Username)
@@ -91,9 +90,20 @@ func Login(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	fmt.Printf("%+v\n", req)
-
 	resp := new(core.DouyinUserLoginResponse)
+
+	if ue := database.FindUserEntryByName(req.Username); ue.Name == "unknown" {
+		// 未找到
+		resp.StatusCode, resp.StatusMsg = -1, "no such user"
+	} else if ue.PassWord != req.Password {
+		resp.StatusCode, resp.StatusMsg = -1, "incorrect password"
+	} else {
+		resp.StatusCode = 0
+		resp.StatusMsg = "login success"
+		resp.UserID = ue.UID
+		resp.Token = ue.Name + " " + time.Now().GoString()
+		log.Printf("user %s login\n", req.Username)
+	}
 
 	c.JSON(consts.StatusOK, resp)
 }
