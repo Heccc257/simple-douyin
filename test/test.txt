@@ -1,0 +1,6 @@
+curl --location --request POST '127.0.0.1:8888/douyin/user/register/?username=hch&password=233' --header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)'
+
+curl --location --request POST '127.0.0.1:8888/douyin/user/login/?username=hch&password=233' --header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)'
+
+curl --location --request GET '127.0.0.1:8888/douyin/user/?user_id=&token=hch233' \
+--header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)'

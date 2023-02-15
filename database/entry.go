@@ -38,17 +38,6 @@ func UserEntry2User(ue *UserEntry) *common.User {
 	}
 }
 
-func FindUserEntryByName(user_name string) *UserEntry {
-	var ue UserEntry
-	// 保证名字唯一，所以可以按名字来查找
-	if result := DB.Where("name = ?", user_name).First(&ue); result.Error != nil {
-		// 未找到时默认返回unknown用户
-		DB.First(&ue, 1)
-	}
-
-	return &ue
-}
-
 func UserExist(user_name string) bool {
 	if ue := FindUserEntryByName(user_name); ue.Model.ID == 1 {
 		// 不存在范围unknown用户

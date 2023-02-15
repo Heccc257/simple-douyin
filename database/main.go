@@ -6,6 +6,25 @@ import (
 	"time"
 )
 
+func FindUserEntryByName(user_name string) *UserEntry {
+	var ue UserEntry
+	// 保证名字唯一，所以可以按名字来查找
+	if result := DB.Where("name = ?", user_name).First(&ue); result.Error != nil {
+		// 未找到时默认返回unknown用户
+		DB.First(&ue, 1)
+	}
+
+	return &ue
+}
+
+func UpdateUser(u *common.User, password string) error {
+	ue := User2UserEntry(u, password)
+	if res := DB.Create(ue); res.Error != nil {
+		return res.Error
+	}
+	return nil
+}
+
 func FindVideosBefore(latest_time int64) ([]*common.Video, int64, error) {
 	var ves []VideoEntry
 	if result := DB.Where("created_at < ?", time.Unix(latest_time, 0)).Order("created_at desc").Limit(30).Find(&ves); result.Error != nil {
@@ -20,12 +39,4 @@ func FindVideosBefore(latest_time int64) ([]*common.Video, int64, error) {
 		return nil, 0, fmt.Errorf("%s", "No videos")
 	}
 	return videos, ves[0].Model.CreatedAt.Unix(), nil
-}
-
-func UpdateUser(u *common.User, password string) error {
-	ue := User2UserEntry(u, password)
-	if res := DB.Create(ue); res.Error != nil {
-		return res.Error
-	}
-	return nil
 }

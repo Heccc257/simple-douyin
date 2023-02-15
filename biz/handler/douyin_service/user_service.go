@@ -4,7 +4,6 @@ package douyin_service
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"sync"
 
@@ -30,6 +29,11 @@ func assignUserID() (userID int64) {
 	return
 }
 
+// token到User的映射
+// 每次服务器启动时都会清除
+// 注册和登陆的时候
+var userLoginInfo = map[string]common.User{}
+
 // Register .
 // @router douyin/user/register/ [POST]
 func Register(ctx context.Context, c *app.RequestContext) {
@@ -45,15 +49,17 @@ func Register(ctx context.Context, c *app.RequestContext) {
 	resp := new(core.DouyinUserRegisterResponse)
 
 	if Len := len(req.Username); Len > 32 || Len == 0 {
+		// 用户名长度不对
 		resp.StatusCode = -1
-		resp.StatusMsg = "Username too long or to short"
+		resp.StatusMsg = "username too long or to short"
 	} else if Len := len(req.Password); Len > 32 || Len == 0 {
+		// 密码长度对
 		resp.StatusCode = -1
-		resp.StatusMsg = "Password too long or to short"
+		resp.StatusMsg = "password too long or to short"
 	} else {
 		if database.UserExist(req.Username) {
-			resp.StatusCode = -1
-			resp.StatusMsg = "User exist!"
+			// 用户名已存在
+			resp.StatusCode, resp.StatusMsg = -1, "User name exist!"
 		} else {
 			user := &common.User{
 				ID:   int64(assignUserID()),
@@ -62,13 +68,16 @@ func Register(ctx context.Context, c *app.RequestContext) {
 			err := database.UpdateUser(user, req.Password)
 			if err != nil {
 				// update err
-				resp.StatusCode = -1
-				resp.StatusMsg = err.Error()
+				resp.StatusCode, resp.StatusMsg = -1, err.Error()
 			} else {
+				// Token返回为用户名+当前时间
 				resp.StatusCode = 0
+				resp.StatusMsg = "register success"
 				resp.UserID = user.ID
-				resp.Token = ""
+				resp.Token = req.Username + req.Password
 				log.Printf("user %s registered\n", req.Username)
+				// 注册时添加token的索引
+				userLoginInfo[resp.Token] = *user
 			}
 		}
 	}
@@ -86,9 +95,20 @@ func Login(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	fmt.Printf("%+v\n", req)
-
 	resp := new(core.DouyinUserLoginResponse)
+
+	if ue := database.FindUserEntryByName(req.Username); ue.Name == "unknown" {
+		// 未找到
+		resp.StatusCode, resp.StatusMsg = -1, "no such user"
+	} else if ue.PassWord != req.Password {
+		resp.StatusCode, resp.StatusMsg = -1, "incorrect password"
+	} else {
+		resp.StatusCode = 0
+		resp.StatusMsg = "login success"
+		resp.UserID = ue.UID
+		resp.Token = ue.Name + ue.PassWord
+		log.Printf("user %s login\n", req.Username)
+	}
 
 	c.JSON(consts.StatusOK, resp)
 }
@@ -103,8 +123,16 @@ func UserInfo(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	fmt.Printf("%+v\n", req)
 	resp := new(core.DouyinUserResponse)
 
+	// 校验token
+	token := req.Token
+	if user, exist := userLoginInfo[token]; exist {
+		resp.StatusCode = 0
+		resp.User = &user
+	} else {
+		// token不存在
+		resp.StatusCode, resp.StatusMsg = -1, "unqualified"
+	}
 	c.JSON(consts.StatusOK, resp)
 }
