@@ -65,6 +65,8 @@ func Register(ctx context.Context, c *app.RequestContext) {
 				ID:   int64(assignUserID()),
 				Name: req.Username,
 			}
+
+			// 添加到数据库中
 			err := database.UpdateUser(user, req.Password)
 			if err != nil {
 				// update err
@@ -78,6 +80,7 @@ func Register(ctx context.Context, c *app.RequestContext) {
 				log.Printf("user %s registered\n", req.Username)
 				// 注册时添加token的索引
 				userLoginInfo[resp.Token] = *user
+
 			}
 		}
 	}

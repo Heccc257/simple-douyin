@@ -40,3 +40,11 @@ func FindVideosBefore(latest_time int64) ([]*common.Video, int64, error) {
 	}
 	return videos, ves[0].Model.CreatedAt.Unix(), nil
 }
+
+func UpdateVideo(v *common.Video) error {
+	ve := Video2VideoEntry(v)
+	if res := DB.Create(ve); res.Error != nil {
+		return res.Error
+	}
+	return nil
+}

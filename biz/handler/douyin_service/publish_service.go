@@ -8,8 +8,11 @@ import (
 	"log"
 	"mime/multipart"
 	"os"
+	"sync"
 
+	"simple_douyin/biz/model/common"
 	core "simple_douyin/biz/model/core"
+	"simple_douyin/database"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -21,6 +24,20 @@ type DouyinPublishActionRequest struct {
 	Token string                `thrift:"token,1" form:"token" json:"token"`
 	Data  *multipart.FileHeader `thrift:"data,2" form:"data" json:"data"`
 	Title string                `thrift:"title,3" form:"title" json:"title"`
+}
+
+// 总的VideoID，从1开始（与数据库表项的ID要区分）
+var (
+	globalVideoID int64 = 1
+	videoIDLock   sync.Mutex
+)
+
+func assignVideoID() (userID int64) {
+	userIDLock.Lock()
+	globalUserID++
+	userID = globalUserID
+	userIDLock.Unlock()
+	return
 }
 
 func PublishAction(ctx context.Context, c *app.RequestContext) {
@@ -66,6 +83,7 @@ func PublishAction(ctx context.Context, c *app.RequestContext) {
 			return
 		}
 
+		// 保存到本地
 		fileDir := "./public/" + user.Name + "/"
 		fileName := req.Title
 		os.MkdirAll(fileDir, 0777)
@@ -89,6 +107,14 @@ func PublishAction(ctx context.Context, c *app.RequestContext) {
 			return
 		}
 		log.Println("create file: ", fileDir+fileName)
+
+		// 添加到数据库
+		database.UpdateVideo(&common.Video{
+			ID:       assignVideoID(),
+			Author:   &user,
+			PlayURL:  fileDir + fileName,
+			CoverURL: "?",
+		})
 	}
 
 	// 正常
