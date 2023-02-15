@@ -5,12 +5,30 @@ package douyin_service
 import (
 	"context"
 	"fmt"
+	"log"
+	"sync"
 
+	"simple_douyin/biz/model/common"
 	core "simple_douyin/biz/model/core"
+	"simple_douyin/database"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
+
+// 总的UserID，从1开始（与数据库表项的ID要区分）
+var (
+	globalUserID int64 = 1
+	userIDLock   sync.Mutex
+)
+
+func assignUserID() (userID int64) {
+	userIDLock.Lock()
+	globalUserID++
+	userID = globalUserID
+	userIDLock.Unlock()
+	return
+}
 
 // Register .
 // @router douyin/user/register/ [POST]
@@ -22,8 +40,38 @@ func Register(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	fmt.Printf("%+v\n", req)
+
+	// fmt.Printf("%+v\n", req)
 	resp := new(core.DouyinUserRegisterResponse)
+
+	if Len := len(req.Username); Len > 32 || Len == 0 {
+		resp.StatusCode = -1
+		resp.StatusMsg = "Username too long or to short"
+	} else if Len := len(req.Password); Len > 32 || Len == 0 {
+		resp.StatusCode = -1
+		resp.StatusMsg = "Password too long or to short"
+	} else {
+		if database.UserExist(req.Username) {
+			resp.StatusCode = -1
+			resp.StatusMsg = "User exist!"
+		} else {
+			user := &common.User{
+				ID:   int64(assignUserID()),
+				Name: req.Username,
+			}
+			err := database.UpdateUser(user, req.Password)
+			if err != nil {
+				// update err
+				resp.StatusCode = -1
+				resp.StatusMsg = err.Error()
+			} else {
+				resp.StatusCode = 0
+				resp.UserID = user.ID
+				resp.Token = ""
+				log.Printf("user %s registered\n", req.Username)
+			}
+		}
+	}
 
 	c.JSON(consts.StatusOK, resp)
 }

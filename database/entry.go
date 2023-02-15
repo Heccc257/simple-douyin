@@ -13,25 +13,48 @@ type UserEntry struct {
 	FollowCount   int64
 	FollowerCount int64
 	IsFollow      bool
+	PassWord      string
 }
 
-func User2UserEntry(u *common.User) *UserEntry {
+func User2UserEntry(u *common.User, password string) *UserEntry {
 	return &UserEntry{
 		UID:           u.ID,
 		Name:          u.Name,
 		FollowCount:   u.FollowCount,
 		FollowerCount: u.FollowerCount,
 		IsFollow:      u.IsFollow,
+		PassWord:      password,
 	}
 }
 
 func UserEntry2User(ue *UserEntry) *common.User {
+	// 不会包含密码信息
 	return &common.User{
 		ID:            ue.UID,
 		Name:          ue.Name,
 		FollowCount:   ue.FollowCount,
 		FollowerCount: ue.FollowerCount,
 		IsFollow:      ue.IsFollow,
+	}
+}
+
+func FindUserEntryByName(user_name string) *UserEntry {
+	var ue UserEntry
+	// 保证名字唯一，所以可以按名字来查找
+	if result := DB.Where("name = ?", user_name).First(&ue); result.Error != nil {
+		// 未找到时默认返回unknown用户
+		DB.First(&ue, 1)
+	}
+
+	return &ue
+}
+
+func UserExist(user_name string) bool {
+	if ue := FindUserEntryByName(user_name); ue.Model.ID == 1 {
+		// 不存在范围unknown用户
+		return false
+	} else {
+		return true
 	}
 }
 
@@ -57,14 +80,14 @@ func Video2VideoEntry(v *common.Video) *VideoEntry {
 		CommentCount:  v.CommentCount,
 		IsFavorite:    v.IsFavorite,
 		Title:         v.Title,
-		UserEntryID:   int64(FindUserEntry(v.Author).Model.ID),
+		UserEntryID:   int64(FindUserEntryByName(v.Author.Name).Model.ID),
 	}
 }
 
 func VideoEntry2Video(ve *VideoEntry) *common.Video {
 	var ue UserEntry
-	if res := db.First(&ue, ve.UserEntryID); res.Error != nil {
-		db.First(&ue, 1)
+	if res := DB.First(&ue, ve.UserEntryID); res.Error != nil {
+		DB.First(&ue, 1)
 	}
 	return &common.Video{
 		ID:            ve.VID,

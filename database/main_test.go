@@ -3,7 +3,6 @@ package database
 import (
 	"fmt"
 	"os"
-	"simple_douyin/biz/model/common"
 	"testing"
 	"time"
 
@@ -12,7 +11,7 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	db, err = gorm.Open(sqlite.Open("douyin.db"), &gorm.Config{})
+	DB, err = gorm.Open(sqlite.Open("douyin.db"), &gorm.Config{})
 	code := m.Run()
 	os.Exit(code)
 }
@@ -22,15 +21,15 @@ func TestInit(t *testing.T) {
 }
 
 func TestFindUserEntry(t *testing.T) {
-	ue := FindUserEntry(&common.User{
-		Name: "unknown",
-	})
-	fmt.Println(*ue)
+	// ue := FindUserEntryByName(&common.User{
+	// 	Name: "unknown",
+	// })
+	// fmt.Println(*ue)
 
-	ue = FindUserEntry(&common.User{
-		Name: "2333",
-	})
-	fmt.Println(*ue)
+	// ue = FindUserEntry(&common.User{
+	// 	Name: "2333",
+	// })
+	// fmt.Println(*ue)
 }
 
 func TestFindVideosBefore(t *testing.T) {
