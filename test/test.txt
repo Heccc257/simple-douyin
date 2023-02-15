@@ -4,3 +4,15 @@ curl --location --request POST '127.0.0.1:8888/douyin/user/login/?username=hch&p
 
 curl --location --request GET '127.0.0.1:8888/douyin/user/?user_id=&token=hch233' \
 --header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)'
+
+curl --location --request POST '127.0.0.1:8888/douyin/publish/action/' \
+--header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)' \
+--form 'data=@"bear.mp4"' \
+--form 'token=""' \
+--form 'title=""'
+
+curl --location --request POST '127.0.0.1:8888/douyin/publish/action/' \
+--header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)' \
+--form 'data=@"bear.mp4"' \
+--form 'token="hch233"' \
+--form 'title="bear.mp4"'
