@@ -28,7 +28,7 @@ type DouyinPublishActionRequest struct {
 
 // 总的VideoID，从1开始（与数据库表项的ID要区分）
 var (
-	globalVideoID int64 = 1
+	globalVideoID int64 = 2
 	videoIDLock   sync.Mutex
 )
 
@@ -115,6 +115,9 @@ func PublishAction(ctx context.Context, c *app.RequestContext) {
 			PlayURL:  fileDir + fileName,
 			CoverURL: "?",
 		})
+		// var ves []database.VideoEntry
+		// database.DB.Find(&ves)
+		// fmt.Println(ves)
 	}
 
 	// 正常
