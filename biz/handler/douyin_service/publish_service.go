@@ -56,69 +56,70 @@ func PublishAction(ctx context.Context, c *app.RequestContext) {
 	}
 
 	token := req.Token
-	if user, exist := userLoginInfo[token]; !exist {
+	user, exist := userLoginInfo[token]
+	// token未通过校验
+	if !exist {
 		c.JSON(consts.StatusOK, &core.DouyinPublishActionResponse{
 			StatusCode: -1,
 			StatusMsg:  "unqualified",
 		})
 		return
-	} else {
-		file, err := req.Data.Open()
-		if err != nil {
-			c.JSON(consts.StatusOK, &core.DouyinPublishActionResponse{
-				StatusCode: -1,
-				StatusMsg:  err.Error(),
-			})
-			return
-		}
-		defer file.Close()
-		p := make([]byte, req.Data.Size)
-
-		if _, err := file.Read(p); err != nil {
-			log.Println(err.Error())
-			c.JSON(consts.StatusOK, &core.DouyinPublishActionResponse{
-				StatusCode: -1,
-				StatusMsg:  err.Error(),
-			})
-			return
-		}
-
-		// 保存到本地
-		fileDir := "./public/" + user.Name + "/"
-		fileName := req.Title
-		os.MkdirAll(fileDir, 0777)
-		os.Chmod(fileDir, 0777)
-
-		// saveFile, err := os.Create(fileDir + fileName)
-		saveFile, err := os.Create(fileDir + fileName)
-
-		if err != nil {
-			log.Println(err.Error())
-		}
-
-		fmt.Println("Create file")
-
-		defer saveFile.Close()
-		if _, err := saveFile.Write(p); err != nil {
-			c.JSON(consts.StatusOK, &core.DouyinPublishActionResponse{
-				StatusCode: -1,
-				StatusMsg:  err.Error(),
-			})
-			return
-		}
-		log.Println("create file: ", fileDir+fileName)
-
-		// 添加到数据库
-		database.UpdateVideo(&common.Video{
-			ID:       assignVideoID(),
-			Author:   &user,
-			PlayURL:  fileDir + fileName,
-			CoverURL: "?",
-		})
-		// var ves []database.VideoEntry
-		// database.DB.Find(&ves)
-		// fmt.Println(ves)
 	}
+
+	file, err := req.Data.Open()
+	if err != nil {
+		c.JSON(consts.StatusOK, &core.DouyinPublishActionResponse{
+			StatusCode: -1,
+			StatusMsg:  err.Error(),
+		})
+		return
+	}
+	defer file.Close()
+	p := make([]byte, req.Data.Size)
+
+	if _, err := file.Read(p); err != nil {
+		log.Println(err.Error())
+		c.JSON(consts.StatusOK, &core.DouyinPublishActionResponse{
+			StatusCode: -1,
+			StatusMsg:  err.Error(),
+		})
+		return
+	}
+
+	// 保存到本地
+	fileDir := "./public/" + user.Name + "/"
+	fileName := req.Title
+	os.MkdirAll(fileDir, 0777)
+	os.Chmod(fileDir, 0777)
+
+	saveFile, err := os.Create(fileDir + fileName)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	defer saveFile.Close()
+	if _, err := saveFile.Write(p); err != nil {
+		c.JSON(consts.StatusOK, &core.DouyinPublishActionResponse{
+			StatusCode: -1,
+			StatusMsg:  err.Error(),
+		})
+		return
+	}
+	log.Println("create file: ", fileDir+fileName)
+
+	// 添加到数据库
+	// 如果重复上传同一名称的视频可能会出错
+	database.UpdateVideo(&common.Video{
+		ID:       assignVideoID(),
+		Author:   &user,
+		PlayURL:  fileDir + fileName,
+		CoverURL: "?",
+		Title:    req.Title,
+	})
+	// var ves []database.VideoEntry
+	// database.DB.Find(&ves)
+	// fmt.Println(ves)
 
 	// 正常
 	c.JSON(consts.StatusOK, &core.DouyinPublishActionResponse{
@@ -136,8 +137,18 @@ func PublishList(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	fmt.Printf("%+v\n", req)
-	resp := new(core.DouyinPublishListResponse)
-
-	c.JSON(consts.StatusOK, resp)
+	token := req.Token
+	_, exist := userLoginInfo[token]
+	if !exist {
+		c.JSON(consts.StatusOK, &core.DouyinPublishActionResponse{
+			StatusCode: -1,
+			StatusMsg:  "unqualified",
+		})
+		return
+	}
+	videos := database.FindVideosByUserID(req.UserID)
+	c.JSON(consts.StatusOK, &core.DouyinPublishListResponse{
+		StatusCode: 0,
+		VideoList:  videos,
+	})
 }

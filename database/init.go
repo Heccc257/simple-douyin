@@ -10,6 +10,11 @@ import (
 var DB *gorm.DB
 var err error
 
+var unknownUser *UserEntry = &UserEntry{
+	UID:  0,
+	Name: "unknown",
+}
+
 func Init() {
 	DB, err = gorm.Open(sqlite.Open("database/douyin.db"), &gorm.Config{})
 
@@ -29,10 +34,7 @@ func Init() {
 			log.Fatal(err)
 		}
 		// 创建一个默认用户
-		DB.Create(&UserEntry{
-			UID:  0,
-			Name: "unknown",
-		})
+		DB.Create(unknownUser)
 	}
 	if exist := DB.Migrator().HasTable("video_entries"); !exist {
 		if err := DB.AutoMigrate(&VideoEntry{}); err != nil {

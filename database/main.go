@@ -17,6 +17,16 @@ func FindUserEntryByName(user_name string) *UserEntry {
 	return &ue
 }
 
+func FindUserEntryByUID(user_id int64) *UserEntry {
+	var ue UserEntry
+	if result := DB.Where("UID = ?", user_id).First(&ue); result.Error != nil {
+		// 未找到时默认返回unknown用户
+		DB.First(&ue, 1)
+	}
+
+	return &ue
+}
+
 func UpdateUser(u *common.User, password string) error {
 	ue := User2UserEntry(u, password)
 	if res := DB.Create(ue); res.Error != nil {
@@ -32,7 +42,6 @@ func FindVideosBefore(latest_time int64) ([]*common.Video, int64, error) {
 	}
 	var videos []*common.Video
 	for _, ve := range ves {
-		fmt.Printf("%+v\n", ve)
 		videos = append(videos, VideoEntry2Video(&ve))
 	}
 	if len(ves) == 0 { // 未找到任何视频
@@ -43,8 +52,21 @@ func FindVideosBefore(latest_time int64) ([]*common.Video, int64, error) {
 
 func UpdateVideo(v *common.Video) error {
 	ve := Video2VideoEntry(v)
+	fmt.Printf("%+v\n", ve)
 	if res := DB.Create(ve); res.Error != nil {
 		return res.Error
 	}
 	return nil
+}
+
+func FindVideosByUserID(user_id int64) []*common.Video {
+	// 需要先根据UID求出数据库的ID
+	ue := FindUserEntryByUID(user_id)
+	fmt.Println("userentry", ue)
+	if ue.Name == unknownUser.Name {
+		return nil
+	}
+	var ves []VideoEntry
+	DB.Where("UserEntryID = ?", ue.Model.ID).Find(&ves)
+	return VideoEntries2Videos(ves)
 }

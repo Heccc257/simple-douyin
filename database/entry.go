@@ -57,7 +57,7 @@ type VideoEntry struct {
 	CommentCount  int64
 	IsFavorite    bool
 	Title         string
-	UserEntryID   int64 `gorm:"default:1"`
+	UserEntryID   int64 `gorm:"default:1;column:UserEntryID"`
 }
 
 func Video2VideoEntry(v *common.Video) *VideoEntry {
@@ -88,4 +88,11 @@ func VideoEntry2Video(ve *VideoEntry) *common.Video {
 		IsFavorite:    ve.IsFavorite,
 		Title:         ve.Title,
 	}
+}
+
+func VideoEntries2Videos(ves []VideoEntry) (videos []*common.Video) {
+	for _, ve := range ves {
+		videos = append(videos, VideoEntry2Video(&ve))
+	}
+	return
 }
