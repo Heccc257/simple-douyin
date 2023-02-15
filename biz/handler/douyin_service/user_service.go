@@ -4,10 +4,8 @@ package douyin_service
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"sync"
-	"time"
 
 	"simple_douyin/biz/model/common"
 	core "simple_douyin/biz/model/core"
@@ -30,6 +28,11 @@ func assignUserID() (userID int64) {
 	userIDLock.Unlock()
 	return
 }
+
+// token到User的映射
+// 每次服务器启动时都会清除
+// 注册和登陆的时候
+var userLoginInfo = map[string]common.User{}
 
 // Register .
 // @router douyin/user/register/ [POST]
@@ -71,8 +74,10 @@ func Register(ctx context.Context, c *app.RequestContext) {
 				resp.StatusCode = 0
 				resp.StatusMsg = "register success"
 				resp.UserID = user.ID
-				resp.Token = req.Username + " " + time.Now().GoString()
+				resp.Token = req.Username + req.Password
 				log.Printf("user %s registered\n", req.Username)
+				// 注册时添加token的索引
+				userLoginInfo[resp.Token] = *user
 			}
 		}
 	}
@@ -101,7 +106,7 @@ func Login(ctx context.Context, c *app.RequestContext) {
 		resp.StatusCode = 0
 		resp.StatusMsg = "login success"
 		resp.UserID = ue.UID
-		resp.Token = ue.Name + " " + time.Now().GoString()
+		resp.Token = ue.Name + ue.PassWord
 		log.Printf("user %s login\n", req.Username)
 	}
 
@@ -118,8 +123,16 @@ func UserInfo(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	fmt.Printf("%+v\n", req)
 	resp := new(core.DouyinUserResponse)
 
+	// 校验token
+	token := req.Token
+	if user, exist := userLoginInfo[token]; exist {
+		resp.StatusCode = 0
+		resp.User = &user
+	} else {
+		// token不存在
+		resp.StatusCode, resp.StatusMsg = -1, "unqualified"
+	}
 	c.JSON(consts.StatusOK, resp)
 }
