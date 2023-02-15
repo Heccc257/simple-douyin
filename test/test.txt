@@ -1,0 +1,2 @@
+curl --location --request POST '127.0.0.1:8888/douyin/user/register/?username=hch2&password=233' \
+--header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)'

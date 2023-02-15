@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"sync"
+	"time"
 
 	"simple_douyin/biz/model/common"
 	core "simple_douyin/biz/model/core"
@@ -67,7 +68,7 @@ func Register(ctx context.Context, c *app.RequestContext) {
 			} else {
 				resp.StatusCode = 0
 				resp.UserID = user.ID
-				resp.Token = ""
+				resp.Token = req.Username + " " + time.Now().GoString()
 				log.Printf("user %s registered\n", req.Username)
 			}
 		}
