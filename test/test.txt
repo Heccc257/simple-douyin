@@ -1,4 +1,5 @@
-curl --location --request POST '127.0.0.1:8888/douyin/user/register/?username=hch&password=233' --header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)'
+curl --location --request POST '127.0.0.1:8888/douyin/user/register/?username=hch&password=233' 
+--header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)'
 
 curl --location --request POST '127.0.0.1:8888/douyin/user/login/?username=hch&password=233' --header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)'
 
@@ -20,3 +21,12 @@ curl --location --request POST '127.0.0.1:8888/douyin/publish/action/' \
 
 curl --location --request GET '127.0.0.1:8888/douyin/publish/list/?token=hch233&user_id=2' \
 --header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)'
+
+
+互动接口
+curl --location --request POST '127.0.0.1:8888/douyin/favorite/action/' \
+--header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)' \
+--form 'video_id="0"' \
+--form 'token="hch233"' \
+--form 'action_type="1"'
+
