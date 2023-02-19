@@ -5,9 +5,10 @@ package douyin_service
 import (
 	"context"
 
+	first "simple_douyin/biz/model/extra/first"
+
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	first "simple_douyin/biz/model/extra/first"
 )
 
 // CommentAction .

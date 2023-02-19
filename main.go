@@ -10,7 +10,6 @@ import (
 
 func main() {
 	database.Init()
-
 	h := server.Default()
 
 	register(h)
