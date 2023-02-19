@@ -8,33 +8,51 @@ import (
 
 type UserEntry struct {
 	gorm.Model
-	UID           int64
-	Name          string
-	FollowCount   int64
-	FollowerCount int64
-	IsFollow      bool
-	PassWord      string
+	UID             int64
+	PassWord        string
+	Name            string
+	FollowCount     int64
+	FollowerCount   int64
+	IsFollow        bool
+	Avatar          string
+	BackgroundImage string
+	Signature       string
+	TotalFavorited  int64
+	WorkCount       int64
+	FavoriteCount   int64
 }
 
 func User2UserEntry(u *common.User, password string) *UserEntry {
 	return &UserEntry{
-		UID:           u.ID,
-		Name:          u.Name,
-		FollowCount:   u.FollowCount,
-		FollowerCount: u.FollowerCount,
-		IsFollow:      u.IsFollow,
-		PassWord:      password,
+		UID:             u.ID,
+		PassWord:        password,
+		Name:            u.Name,
+		FollowCount:     u.FollowCount,
+		FollowerCount:   u.FollowerCount,
+		IsFollow:        u.IsFollow,
+		Avatar:          u.Avatar,
+		BackgroundImage: u.BackgroundImage,
+		Signature:       u.Signature,
+		TotalFavorited:  u.TotalFavorited,
+		WorkCount:       u.WorkCount,
+		FavoriteCount:   u.FavoriteCount,
 	}
 }
 
 func UserEntry2User(ue *UserEntry) *common.User {
 	// 不会包含密码信息
 	return &common.User{
-		ID:            ue.UID,
-		Name:          ue.Name,
-		FollowCount:   ue.FollowCount,
-		FollowerCount: ue.FollowerCount,
-		IsFollow:      ue.IsFollow,
+		ID:              ue.UID,
+		Name:            ue.Name,
+		FollowCount:     ue.FollowCount,
+		FollowerCount:   ue.FollowerCount,
+		IsFollow:        ue.IsFollow,
+		Avatar:          ue.Avatar,
+		BackgroundImage: ue.BackgroundImage,
+		Signature:       ue.Signature,
+		TotalFavorited:  ue.TotalFavorited,
+		WorkCount:       ue.WorkCount,
+		FavoriteCount:   ue.FavoriteCount,
 	}
 }
 
