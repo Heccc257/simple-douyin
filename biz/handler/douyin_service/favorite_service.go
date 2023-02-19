@@ -8,10 +8,14 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	first "simple_douyin/biz/model/extra/first"
+	"simple_douyin/database"
+
+	"fmt"
 )
 
 // FavoriteAction .
 // @router douyin/favorite/action/ [POST]
+// 待完成: 改变视频的总点赞数
 func FavoriteAction(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req first.DouyinFavoriteActionRequest
@@ -22,6 +26,20 @@ func FavoriteAction(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(first.DouyinFavoriteActionResponse)
+
+	action_token := req.Token
+	action_user := userLoginInfo[action_token]
+	action_uid := action_user.ID
+	vid := req.VideoID
+	action_type := req.ActionType
+
+	resp.StatusCode = 0
+	resp.StatusMsg = "success"
+
+	if err = database.FavoriteAction(action_uid, vid, action_type); err != nil{
+		resp.StatusCode = 1
+		resp.StatusMsg = "fail"
+	}
 
 	c.JSON(consts.StatusOK, resp)
 }
@@ -38,6 +56,21 @@ func FavoriteList(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(first.DouyinFavoriteListResponse)
+
+	_token := req.Token
+	_user := userLoginInfo[_token]
+	_uid := _user.ID
+	if _uid != req.UserID{
+		fmt.Println("鉴权失败，待完善")
+	}
+
+	resp.StatusCode = 0
+	resp.StatusMsg = "success"
+
+	if resp.VideoList, err = database.GetFavoriteList(_uid); err != nil{
+		resp.StatusCode = 1
+		resp.StatusMsg = err.Error()
+	}
 
 	c.JSON(consts.StatusOK, resp)
 }

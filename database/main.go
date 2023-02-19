@@ -70,3 +70,45 @@ func FindVideosByUserID(user_id int64) []*common.Video {
 	DB.Where("UserEntryID = ?", ue.Model.ID).Find(&ves)
 	return VideoEntries2Videos(ves)
 }
+
+func FavoriteAction(uid int64, VID int64, action_type int32) error {
+	var ut UserThumb
+	flag := false
+	if action_type == 1{
+		flag = false
+	}
+	if result := DB.Where("UID = ? and VID = ?", uid, VID).First(&ut); result.Error != nil{
+		ut.UID = uid
+		ut.VID = VID
+		ut.IsFavorite = flag
+		if result := DB.Create(&ut); result.Error != nil{
+			fmt.Println("出错")
+			fmt.Println(result.Error)
+		}else{
+			fmt.Println("点赞/撤销成功")
+		}
+
+		// fmt.Println("点赞，查询不到，成功创建")
+		// DB.Create(&ut)
+		return nil
+	}
+	result := DB.Save(&ut);
+	ut.IsFavorite = flag
+	return result.Error
+}
+
+func GetFavoriteList(uid int64) ([]*common.Video, error) {
+	var utLis []UserThumb
+	var ret []VideoEntry
+	if result := DB.Where("UID = ?", uid).Find(&utLis); result.Error != nil{
+		return nil, result.Error
+	} else {
+		var t []int64
+		for index := 0; index < len(utLis); index++ {
+			t = append(t, utLis[index].VID)
+		}
+		DB.Where("VID IN ?", t).Find(&ret)
+		return VideoEntries2Videos(ret), nil
+	}
+	return nil, nil
+}

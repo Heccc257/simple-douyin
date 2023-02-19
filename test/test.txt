@@ -24,9 +24,10 @@ curl --location --request GET '127.0.0.1:8888/douyin/publish/list/?token=hch233&
 
 
 互动接口
-curl --location --request POST '127.0.0.1:8888/douyin/favorite/action/' \
---header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)' \
---form 'video_id="0"' \
---form 'token="hch233"' \
---form 'action_type="1"'
+curl --location --request POST '127.0.0.1:8888/douyin/favorite/action/?token="hch"&video_id=3&action_type=1' \
+--header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)'
+
+curl --location --request GET '127.0.0.1:8888/douyin/favorite/list/?user_id=1&token=sdg' \
+--header 'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)'
+
 

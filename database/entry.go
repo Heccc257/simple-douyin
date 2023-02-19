@@ -94,5 +94,12 @@ func VideoEntries2Videos(ves []VideoEntry) (videos []*common.Video) {
 	for _, ve := range ves {
 		videos = append(videos, VideoEntry2Video(&ve))
 	}
-	return
+	return videos
+}
+
+type UserThumb struct{
+	gorm.Model
+	UID 		int64
+	VID			int64
+	IsFavorite	bool
 }
