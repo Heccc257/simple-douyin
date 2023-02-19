@@ -4,12 +4,29 @@ package douyin_service
 
 import (
 	"context"
+	"sync"
+	"fmt"
 
 	first "simple_douyin/biz/model/extra/first"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	"simple_douyin/database"
 )
+
+// 总的UserID，从1开始（与数据库表项的ID要区分）
+var (
+	globalCommentID int64 = 1
+	commentIDLock   sync.Mutex
+)
+
+func assignCommentID() (commentID int64) {
+	commentIDLock.Lock()
+	globalCommentID++
+	commentID = globalCommentID
+	commentIDLock.Unlock()
+	return
+}
 
 // CommentAction .
 // @router douyin/comment/action/ [POST]
@@ -23,6 +40,45 @@ func CommentAction(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(first.DouyinCommentActionResponse)
+
+	token := req.Token
+	vid := req.VideoID
+	actionType := req.ActionType
+	var uid int64 = 0
+	var retComment first.Comment
+	resp.StatusCode = 0
+	
+	// 校验token
+	if user, exist := userLoginInfo[token]; exist {
+		uid = user.ID
+		retComment.User = &user
+		} else {
+			// token不存在
+			fmt.Println("comment, token非法")
+			resp.StatusCode, resp.StatusMsg = -1, "unqualified"
+		}
+		
+	if actionType == 1{
+		comment_text := req.CommentText
+		cid := assignCommentID()
+		if date, err := database.CommentActionPush(uid, vid, cid, comment_text); err != nil{
+			resp.StatusMsg = err.Error()
+			fmt.Println("评论失败，待完善")
+		} else {
+			retComment.ID = uid
+			retComment.Content = comment_text
+			retComment.CreateDate = date			
+		}
+	} else {
+		if CE, err := database.CommentActionDel(uid, vid); err != nil{
+			resp.StatusMsg = err.Error()
+			fmt.Println("删除评论失败，待完善")
+		} else {
+			retComment.ID = CE.Cid
+			retComment.Content = CE.CommentText
+			retComment.CreateDate = CE.Model.CreatedAt.String()[5:10]
+		}
+	}
 
 	c.JSON(consts.StatusOK, resp)
 }
@@ -39,6 +95,25 @@ func CommentList(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(first.DouyinCommentListResponse)
+
+	token := req.Token
+	vid := req.VideoID
+	resp.StatusCode = 0
+	
+	// 校验token
+	if _, exist := userLoginInfo[token]; !exist {
+		// token不存在
+		fmt.Println("comment, token非法")
+		resp.StatusCode, resp.StatusMsg = -1, "unqualified"
+	}
+	
+	if result, err := database.GetCommentList(vid); err != nil{
+		resp.StatusMsg = err.Error()
+		fmt.Println("获取视频点赞列表失败")
+	} else {
+		resp.CommentList = result
+	}
+
 
 	c.JSON(consts.StatusOK, resp)
 }

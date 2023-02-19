@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"simple_douyin/biz/model/common"
+	"simple_douyin/biz/model/extra/first"
 	"time"
 )
 
@@ -71,44 +72,98 @@ func FindVideosByUserID(user_id int64) []*common.Video {
 	return VideoEntries2Videos(ves)
 }
 
-func FavoriteAction(uid int64, VID int64, action_type int32) error {
+func FavoriteAction(uid int64, vid int64, action_type int32) error {
 	var ut UserThumb
 	flag := false
 	if action_type == 1{
 		flag = false
 	}
-	if result := DB.Where("UID = ? and VID = ?", uid, VID).First(&ut); result.Error != nil{
-		ut.UID = uid
-		ut.VID = VID
-		ut.IsFavorite = flag
-		if result := DB.Create(&ut); result.Error != nil{
-			fmt.Println("出错")
-			fmt.Println(result.Error)
-		}else{
-			fmt.Println("点赞/撤销成功")
-		}
-
-		// fmt.Println("点赞，查询不到，成功创建")
-		// DB.Create(&ut)
-		return nil
-	}
-	result := DB.Save(&ut);
+	if result := DB.FirstOrCreate(&ut, UserThumb{Uid : uid, Vid : vid}); result.Error != nil{
+		fmt.Println("点赞查询出错")
+		return result.Error
+	} 
 	ut.IsFavorite = flag
-	return result.Error
+	if result := DB.Save(&ut); result.Error != nil{
+		fmt.Println("点赞更新查询出错")
+		return result.Error
+	}
+	return nil
 }
 
 func GetFavoriteList(uid int64) ([]*common.Video, error) {
 	var utLis []UserThumb
 	var ret []VideoEntry
-	if result := DB.Where("UID = ?", uid).Find(&utLis); result.Error != nil{
+	if result := DB.Where("uid = ?", uid).Find(&utLis); result.Error != nil{
 		return nil, result.Error
 	} else {
 		var t []int64
-		for index := 0; index < len(utLis); index++ {
-			t = append(t, utLis[index].VID)
+		for _, value := range utLis{
+			t = append(t, value.Vid)
 		}
-		DB.Where("VID IN ?", t).Find(&ret)
+		DB.Where("vid IN ?", t).Find(&ret)
 		return VideoEntries2Videos(ret), nil
 	}
 	return nil, nil
+}
+
+func CommentActionPush(uid int64, vid int64, cid int64, comment_text string) (string, error) {
+	var CE CommentEntry
+	CE = CommentEntry{
+		Uid : uid,
+		Vid : vid,
+		Cid : cid,
+		CommentText : comment_text,
+	}
+	if result := DB.Where("uid = ? AND  vid = ? ", uid, vid).Find(&CE); result.Error != nil{
+		return "", result.Error
+	} else {
+		// 返回日期格式 mm-dd
+		return CE.Model.CreatedAt.String()[5:10], result.Error
+	}
+	return "", nil
+}
+
+func CommentActionDel(uid int64, vid int64) (*CommentEntry, error){
+	var CE CommentEntry
+
+	if result := DB.Where("uid = ? AND vid = ? ", uid, vid).First(&CE); result.Error != nil{
+		return nil, result.Error
+	} else {
+		if e := DB.Delete(&CE); e.Error != nil{
+			return nil, e.Error
+		}
+		return &CE, nil
+	}
+
+	return nil, nil
+}
+
+func GetCommentList(vid int64) ([]*first.Comment, error){
+	var ret 	[]*first.Comment
+	var TempC 	first.Comment
+	var CELis		[]CommentEntry
+	var ue 		UserEntry
+
+	if result := DB.Order("created_at").Where("vid = ?", vid).Find(CELis); result.Error != nil{
+		return nil, result.Error
+	}
+	if len(CELis) == 0{
+		return nil, nil
+	}
+	for _, ce := range CELis{
+		uid := ce.Uid
+		if result2 := DB.First(&ue, UserEntry{UID : uid}); result2.Error != nil{
+			return nil, result2.Error
+		}
+		TempC = first.Comment{
+			ID 	: 	ce.Cid,
+			User 	: 	UserEntry2User(&ue),
+			Content : 	ce.CommentText,
+			CreateDate	:	ce.Model.CreatedAt.String()[5:10],
+		}
+
+		ret = append(ret, &TempC)
+	}
+
+	return ret, nil
 }

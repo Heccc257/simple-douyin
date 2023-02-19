@@ -19,7 +19,7 @@ func Init() {
 	DB, err = gorm.Open(sqlite.Open("database/douyin.db"), &gorm.Config{})
 
 	// 初始化数据库
-	DB.Migrator().DropTable("user_entries", "video_entries", "user_thumb")
+	DB.Migrator().DropTable("user_entries", "video_entries", "user_thumb", "comment_entry")
 
 	if err != nil {
 		panic("failed to connect database")
@@ -45,6 +45,11 @@ func Init() {
 	}
 	if exist := DB.Migrator().HasTable("user_thumb"); !exist {
 		if err := DB.AutoMigrate(&UserThumb{}); err != nil {
+			log.Fatal(err)
+		}
+	}
+	if exist := DB.Migrator().HasTable("comment_entry"); !exist {
+		if err := DB.AutoMigrate(&CommentEntry{}); err != nil {
 			log.Fatal(err)
 		}
 	}

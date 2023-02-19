@@ -117,7 +117,15 @@ func VideoEntries2Videos(ves []VideoEntry) (videos []*common.Video) {
 
 type UserThumb struct{
 	gorm.Model
-	UID 		int64
-	VID			int64
+	Uid 		int64
+	Vid		int64
 	IsFavorite	bool
+}
+
+type CommentEntry struct{
+	gorm.Model
+	Uid int64
+	Vid int64
+	Cid int64
+	CommentText string
 }

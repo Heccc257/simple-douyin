@@ -15,7 +15,7 @@ import (
 
 // FavoriteAction .
 // @router douyin/favorite/action/ [POST]
-// 待完成: 改变视频的总点赞数
+// 待完成: 改变视频的总点赞数，鉴权问题
 func FavoriteAction(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req first.DouyinFavoriteActionRequest
