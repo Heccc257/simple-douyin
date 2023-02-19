@@ -5,9 +5,10 @@ package douyin_service
 import (
 	"context"
 
+	second "simple_douyin/biz/model/extra/second"
+
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	second "simple_douyin/biz/model/extra/second"
 )
 
 // RelationAction .

@@ -3,7 +3,13 @@ struct User {
     2: string name (api.body="name")
     3: i64 follow_count (api.body="follow_count")
     4: i64 follower_count (api.body="follower_count")
-    5: bool is_follow (api.body="is_follow") 
+    5: bool is_follow (api.body="is_follow")
+    6: string avatar (api.body="avatar")
+    7: string background_image (api.body="background_image")
+    8: string signature (api.body="signature")
+    9: i64 total_favorited (api.body="total_favorited")
+    10: i64 work_count (api.body="work_count")
+    11: i64 favorite_count (api.body="favorite_count")
 }
 
 struct Video {
